@@ -1,25 +1,29 @@
 include "globals.mzn";
 
+%%%%%%%%% DATA %%%%%%%%%%
 int: m;   % couriers
 int: n;   % packages (n >= m)
 array[1..m] of int: l;   % max load of each courier
 array[1..n] of int: s;   % package sizes
 array[1..n+1, 1..n+1] of int: distances;   % distances between package and package
 
-%%%%%
+%%%%%%%% VARIABLES %%%%%%%%%%
 % x[i,k] is the package taken at time k by courier i
 array[1..m,0..n+1] of var 1..n+1: x; 
 
 % y[i] is the total distance travelled by courier i
 array[1..m] of var 0..sum(distances): y;
 
-% couriers start and end at depot
+
+%%%%%%%% CONSTRAINTS %%%%%%%%%%
+% couriers start and end at depot (j = n+1)
 constraint 
 forall(i in 1..m)(
     x[i,0] = n+1 /\ x[i,n+1] = n+1
 ); 
 
-% once a courier arrive to j = n+1, it can't depart from there
+% symmetry-breaking constraint
+% once a courier arrive to depot (j = n+1), it can't depart from there
 constraint
 forall(i in 1..m, k in 2..n where x[i,k-1] == n+1)(
     x[i,k] = n+1
@@ -37,7 +41,7 @@ forall(j in 1..n)(
     sum(i in 1..m, k in 1..m where x[i,k] = j )(1) = 1
 );
 
-% calculate y
+% calculation of distances
 constraint
 forall(i in 1..m)(
     y[i] = sum(k in 1..n+1)(distances[x[i,k-1],x[i,k]])
@@ -45,3 +49,16 @@ forall(i in 1..m)(
 
 solve :: int_search(y, input_order, indomain_min)  minimize max(y);
 
+% output
+output [
+        "\nDistances traveled by each courier: \n"
+    ] ++ 
+    [
+        "Courier \(i) = \(y[i]);\n" | i in (1..m)
+    ] ++
+    [
+        "\nPath taken by each courier: \n"
+    ] ++
+    [
+        "Courier \(i) at time \(k) arrives to \(j); \n"  | i in (1..m), k in (1..n+1), j in (1..n) where fix(x[i,k]) == j
+    ];
