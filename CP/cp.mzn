@@ -53,7 +53,6 @@ constraint
     );
 
 % each courier can deliver at most l[i] units of packages
-
 constraint
     forall(i in 1..m) (
         sum(j in 1..n) (
@@ -63,21 +62,42 @@ constraint
         ) <= l[i]
     );
 
-% distances calculation
+% once each courier arrives to position n+1 all the next positions must be n+1
+constraint
+    forall(i in 1..m) (
+        forall(k in 1..n) (
+            if x[i,n+1,k] = 1 then x[i,n+1,k+1] = 1 endif
+        )
+    );
+
+% distances calculation in y
 % constraint
 %     forall(i in 1..m) (
-%         forall(a in 1..n) (
-%             forall(b in 1..n where a!=b) (
-%                 forall(k in 1..n+1) (
-%                     if k = 1 then
-%                         y[i] = y[i] + x[i,b,k] * distances[b,n+1]
-%                     else 
-%                         y[i] = y[i] + x[i,a,k-1] * x[i,b,k] * distances[a,b]
-%                     endif
+%         y[i] = 
+%             sum(k in 0..n+1) (
+%                 sum(a,b in 1..n+1 where a!=b) (  
+%                     % sum(b in 1..n+1 where a!=b) (         
+%                         if k == 0  then
+%                             x[i,a,k+1]*distances[n+1,a]
+%                         else
+%                             x[i,a,k-1]*x[i,b,k]*distances[a,b]
+%                         endif
+%                     % )
 %                 )
-%             )
 %         )
 %     );
+constraint
+    forall(i in 1..m) (
+        y[i] = 
+            sum(k in 1..n+1) (
+                sum(a,b in 1..n+1 where a!=b) (  
+                    % sum(b in 1..n+1 where a!=b) (         
+                        x[i,a,k-1]*x[i,b,k]*distances[a,b]
+                    % )
+                )
+        )
+    );
+
 
 solve :: int_search(y, input_order, indomain_min)  minimize max(y);
 
