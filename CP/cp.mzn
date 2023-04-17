@@ -1,4 +1,5 @@
 include "globals.mzn";
+include "nosets.mzn";
 
 %%%%%%%%% DATA %%%%%%%%%%
 int: m;   % couriers
@@ -12,7 +13,7 @@ array[1..n+1, 1..n+1] of int: distances;   % distances between package and packa
 array[1..m,0..n+1] of var 1..n+1: x; 
 
 % y[i] is the total distance travelled by courier i
-array[1..m] of var 0..sum(distances): y;
+array[1..m] of var 0..n*max(distances): y;
 
 
 %%%%%%%% CONSTRAINTS %%%%%%%%%%
@@ -35,22 +36,16 @@ forall(i in 1..m)(
     sum(k in 1..n where x[i,k] != n+1)(s[x[i,k]]) <= l[i]
 );
 
-% no package j is delivered by more than one courier i at each time k
-% constraint
-% forall(j in 1..n)(
-%     sum(i in 1..m, k in 1..n where x[i,k] = j )(1) = 1
-% );
-
 % all packages must be delivered
 constraint
     among(n, x, 1..n)::domain;
 
-constraint alldifferent([x[i,k] | i in 1..m, k in 1..n where x[i,k] != n+1])::domain;
-
 % constraint
-% forall(j in 1..n)(
-%     sum(i in 1..m, k in 1..n where x[i,k] = j )(1) > 0
-% );
+%     partition_set(
+%         [array2set([x[i,k] | k in 1..n where x[i,k] != n+1]) | i in 1..m], 1..n
+%     );
+
+constraint alldifferent([x[i,k] | i in 1..m, k in 1..n where x[i,k] != n+1])::domain;
 
 % calculation of distances
 constraint
