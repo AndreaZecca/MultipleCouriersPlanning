@@ -36,10 +36,21 @@ forall(i in 1..m)(
 );
 
 % no package j is delivered by more than one courier i at each time k
+% constraint
+% forall(j in 1..n)(
+%     sum(i in 1..m, k in 1..n where x[i,k] = j )(1) = 1
+% );
+
+% all packages must be delivered
 constraint
-forall(j in 1..n)(
-    sum(i in 1..m, k in 1..m where x[i,k] = j )(1) = 1
-);
+    among(n, x, 1..n)::domain;
+
+constraint alldifferent([x[i,k] | i in 1..m, k in 1..n where x[i,k] != n+1])::domain;
+
+% constraint
+% forall(j in 1..n)(
+%     sum(i in 1..m, k in 1..n where x[i,k] = j )(1) > 0
+% );
 
 % calculation of distances
 constraint
@@ -47,7 +58,8 @@ forall(i in 1..m)(
     y[i] = sum(k in 1..n+1)(distances[x[i,k-1],x[i,k]])
 );
 
-solve :: int_search(y, input_order, indomain_min)  minimize max(y);
+solve :: int_search(x, input_order, indomain_min)  minimize max(y); %dom_w_deg, indomain_random
+
 
 % output
 output [
