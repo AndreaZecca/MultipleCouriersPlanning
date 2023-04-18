@@ -15,7 +15,6 @@ array[1..m,0..n+1] of var 1..n+1: x;
 % y[i] is the total distance travelled by courier i
 array[1..m] of var 0..n*max(distances): y;
 
-
 %%%%%%%% CONSTRAINTS %%%%%%%%%%
 % couriers start and end at depot (j = n+1)
 constraint 
@@ -30,6 +29,12 @@ forall(i in 1..m, k in 2..n where x[i,k-1] == n+1)(
     x[i,k] = n+1
 );
 
+% symetry breaking constraint between couriers with the same load using lex
+constraint
+forall(i in 1..m, z in 1..m where i!=z /\ l[i] == l[z])(
+   lex_lesseq([x[i,k] | k in 1..n], [x[z,k] | k in 1..n])
+);
+
 % couriers do not exceed their max load
 constraint
 forall(i in 1..m)(
@@ -37,27 +42,27 @@ forall(i in 1..m)(
 );
 
 % all packages must be delivered
-constraint
-    among(n, x, 1..n)::domain;
 
-% constraint
-%     partition_set(
-%         [array2set([x[i,k] | k in 1..n where x[i,k] != n+1]) | i in 1..m], 1..n
-%     );
+constraint 
+    forall(j in 1..n) (
+        count_eq(x, j, 1)
+    )::domain;
 
-constraint alldifferent([x[i,k] | i in 1..m, k in 1..n where x[i,k] != n+1])::domain;
+% we can avoid the use of alldifferent and among by using a partition_set
+% constraint 
+%     partition_set([array2set([x[i,k] | k in 1..n+1 where x[i,k] != n+1]) | i in 1..m],1..n);
 
 % calculation of distances
 constraint
-forall(i in 1..m)(
-    y[i] = sum(k in 1..n+1)(distances[x[i,k-1],x[i,k]])
-);
+    forall(i in 1..m)(
+        y[i] = sum(k in 1..n+1)(distances[x[i,k-1],x[i,k]])
+    );
 
 solve :: int_search(x, input_order, indomain_min)  minimize max(y); %dom_w_deg, indomain_random
 
-
 % output
-output [
+output 
+    [
         "\nDistances traveled by each courier: \n"
     ] ++ 
     [
