@@ -51,8 +51,8 @@ constraint
 
 % symetry breaking constraint between couriers with the same load using lex
 constraint
-    forall(i in 1..m, z in 1..m where i!=z /\ l[i] == l[z])(
-    lex_lesseq([x[i,k] | k in 1..n] , [x[z,k] | k in 1..n])
+    forall(i in 1..m, z in i..m where i!=z /\ l[i] == l[z])(
+        lex_lesseq([x[i,k] | k in 1..n] , [x[z,k1] | k1 in 1..n])
     );
 
 %%%%%%%% OBJECTIVE %%%%%%%%%%
@@ -62,8 +62,8 @@ constraint
     );
 
 %%%%%%%% SEARCH STRATEGY %%%%%%%%%% (Gecode on inst12)
-solve :: int_search(x, dom_w_deg, indomain_min)  minimize max(y); % --3.5 seconds
-
+%solve :: int_search(x, dom_w_deg, indomain_min)  minimize max(y); % --3.5 secondss
+solve :: int_search(x, input_order, indomain_min)  minimize max(y);
 
 % output
 output 
