@@ -62,7 +62,7 @@ constraint
     );
 
 %%%%%%%% SEARCH STRATEGY %%%%%%%%%% (Gecode on inst12)
-% solve :: int_search(x, dom_w_deg, indomain_min)  minimize max(y); % --3.5 seconds
+solve :: int_search(x, dom_w_deg, indomain_min)  minimize max(y); % --3.5 seconds
 
 
 % output
