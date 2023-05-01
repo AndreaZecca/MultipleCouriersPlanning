@@ -13,7 +13,7 @@ array[1..n+1, 1..n+1] of int: distances;   % distances between packages
 array[1..m,0..n+1] of var 1..n+1: x; 
 
 % y[i] is the total distance travelled by courier i
-array[1..m] of var 0..n*sum([max(distances[i,1..n+1]) | i in 1..n]): y;
+array[1..m] of var 0..n*sum([max(distances[i,1..n+1]) | i in 1..n]): y;  % check if it's more correct | i in 1..n+1
 % another possible upperbound is n*max(distances)
 
 %%%%%%%% CONSTRAINTS %%%%%%%%%%
