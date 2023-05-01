@@ -49,9 +49,9 @@ constraint
         x[i,k] = n+1
     );
 
-% symetry breaking constraint between couriers with the same load using lex
+% symetry breaking constraint between couriers with specified load using lex
 constraint
-    forall(i in 1..m, z in i..m where i!=z /\ l[i] == l[z])(
+    forall(i in 1..m, z in i..m where i!=z /\ l[i] <= l[z])(
         lex_lesseq([x[i,k] | k in 1..n] , [x[z,k1] | k1 in 1..n])
     );
 
