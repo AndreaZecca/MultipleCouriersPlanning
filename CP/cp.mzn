@@ -16,6 +16,8 @@ array[1..m,0..n+1] of var 1..n+1: x;
 array[1..m] of var 0..n*sum([max(distances[i,1..n+1]) | i in 1..n]): y;  % check if it's more correct | i in 1..n+1
 % another possible upperbound is n*max(distances)
 
+array[1..m] of var 0..sum([l[i] | i in 1..m]): load; 
+
 %%%%%%%% CONSTRAINTS %%%%%%%%%%
 % couriers start and end at depot (j = n+1)
 constraint 
@@ -26,7 +28,8 @@ constraint
 % couriers do not exceed their max load
 constraint
     forall(i in 1..m)(
-        sum(k in 1..n where x[i,k] != n+1)(s[x[i,k]]) <= l[i]
+        load[i] == sum(k in 1..n where x[i,k] != n+1)(s[x[i,k]]) /\
+        load[i] <= l[i] 
     );
 
 constraint 
@@ -54,6 +57,12 @@ constraint
 constraint
     forall(i in 1..m-1, z in i+1..m where l[i] == l[z])(
         lex_lesseq([x[i,k] | k in 1..n] , [x[z,k1] | k1 in 1..n])
+    );
+
+% symmetry breaking constraint between couriers with >= max load
+constraint
+    forall(i in 1..m-1, z in i+1..m where l[i] >= l[z])(
+        load[i] >= load[z]
     );
 
 %%%%%%%% OBJECTIVE %%%%%%%%%%
