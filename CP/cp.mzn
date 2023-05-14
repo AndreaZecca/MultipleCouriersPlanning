@@ -52,12 +52,7 @@ constraint
 
 % symetry breaking constraint between couriers with specified load using lex
 constraint
-    forall(i in 1..m, z in i..m where i!=z /\ l[i] <= l[z])(
-        lex_lesseq([x[i,k] | k in 1..n] , [x[z,k1] | k1 in 1..n])
-    );
-
-constraint
-    forall(i in 1..m, z in 1..i where i!=z /\ l[i] < l[z])(
+    forall(i in 1..m-1, z in i+1..m where l[i] == l[z])(
         lex_lesseq([x[i,k] | k in 1..n] , [x[z,k1] | k1 in 1..n])
     );
 
