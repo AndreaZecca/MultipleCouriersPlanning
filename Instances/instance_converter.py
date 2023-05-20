@@ -11,8 +11,8 @@ def main():
         num_regex = r"(\d+)"
         lines = [x for x in lines if x != ""]
         lines = [x.strip() for x in lines]
-        n = int(re.findall(num_regex, lines[0])[0])
-        m = int(re.findall(num_regex, lines[1])[0])
+        m = int(re.findall(num_regex, lines[0])[0])
+        n = int(re.findall(num_regex, lines[1])[0])
         l = [int(x) for x in re.findall(num_regex, lines[2])]
         s = [int(x) for x in re.findall(num_regex, lines[3])]
         distances = []
