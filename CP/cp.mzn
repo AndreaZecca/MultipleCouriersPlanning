@@ -16,6 +16,7 @@ array[1..m,0..n+1] of var 1..n+1: x;
 array[1..m] of var 0..n*sum([max(distances[i,1..n+1]) | i in 1..n]): y;  % check if it's more correct | i in 1..n+1
 % another possible upperbound is n*max(distances)
 
+% TODO: Do we actually need this variable?
 array[1..m] of var 0..sum([l[i] | i in 1..m]): load;
 
 %%%%%%%% CONSTRAINTS %%%%%%%%%%
