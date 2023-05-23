@@ -3,6 +3,8 @@ import re
 
 def main():
     for instance in os.listdir("./Original_Instances"):
+        if not instance.endswith(".dat"):
+            continue
         print(f"Instance: {instance}")
         with open(f"./Original_Instances/{instance}") as f:
             text = f.read()
