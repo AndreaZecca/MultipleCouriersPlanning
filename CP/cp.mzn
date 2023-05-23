@@ -13,7 +13,7 @@ array[1..n+1, 1..n+1] of int: distances;   % distances between packages
 array[1..m,0..n+1] of var 1..n+1: x; 
 
 % y[i] is the total distance travelled by courier i
-array[1..m] of var 0..n*sum([max(distances[i,1..n+1]) | i in 1..n]): y;  % check if it's more correct | i in 1..n+1
+array[1..m] of var 0..sum([max(distances[i,1..n+1]) | i in 1..n]): y;  % check if it's more correct | i in 1..n+1
 % another possible upperbound is n*max(distances)
 
 % TODO: Do we actually need this variable?
@@ -33,10 +33,18 @@ constraint
         load[i] <= l[i] 
     );
 
+% each package is delivered
 constraint 
     forall(j in 1..n) (
         count_eq(x, j, 1)
     )::domain;
+    
+% each courier must deliver at least one package
+% TODO: check this constraint. With this => lower performance
+% constraint 
+%     forall(i in 1..m) (
+%         x[i,1] != n+1
+%     );
 
 % Other ways to express the same constraint
 % -------------- Combination of alldifferent + among ----------------
