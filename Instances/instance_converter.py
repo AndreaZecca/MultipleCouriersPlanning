@@ -15,17 +15,26 @@ def main():
         lines = [x.strip() for x in lines]
         m = int(re.findall(num_regex, lines[0])[0])
         n = int(re.findall(num_regex, lines[1])[0])
+        time = n-m+2
         l = [int(x) for x in re.findall(num_regex, lines[2])]
         s = [int(x) for x in re.findall(num_regex, lines[3])]
         distances = []
         for i in range(4, 4 + n + 1):
             distances.append([int(x) for x in re.findall(num_regex, lines[i])])
+        
+        min1 = min(distances[n][:n])
+        min2 = min([x[n] for x in distances[:n]])
+
+        mindist = min(min1, min2)*2
+
         text = ''
         l = [str(x) for x in l]
         s = [str(x) for x in s]
 
         text += f'm = {m};\n'
         text += f'n = {n};\n'
+        text += f'mindist = {mindist};\n'
+        text += f'time = {time};\n'
         text += f'l = [{", ".join(l)}];\n'
         text += f's = [{", ".join(s)}];\n'
 
