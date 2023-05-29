@@ -9,14 +9,13 @@ array[1..n] of int: s;   % package sizes
 array[1..n+1, 1..n+1] of int: distances;   % distances between packages
 
 int :mindist;%= min(distances[n,0..n]) + min(distances[0..n,n]); % minimum distance to travel when all courriers must deliver at least one package
-
+int : max_dist;
 %%%%%%%% VARIABLES %%%%%%%%%%
 % x[i,k] is the package taken at time k by courier i
 array[1..m,0..time] of var 1..n+1: x; 
 
 % y[i] is the total distance travelled by courier i
-array[1..m] of var mindist..sum([max(distances[i,1..n+1]) | i in 1..n]): y;  % check if it's more correct | i in 1..n+1
-% another possible upperbound is n*max(distances)
+array[1..m] of var mindist..max_dist: y;  
 
 % TODO: Do we actually need this variable?
 array[1..m] of var 0..sum([l[i] | i in 1..m]): load;
