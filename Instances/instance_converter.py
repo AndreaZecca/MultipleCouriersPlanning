@@ -1,5 +1,6 @@
 import os
 import re
+import numpy as np
 
 def main():
     for instance in os.listdir("./Original_Instances"):
@@ -22,6 +23,14 @@ def main():
         for i in range(4, 4 + n + 1):
             distances.append([int(x) for x in re.findall(num_regex, lines[i])])
         
+        distances = np.array(distances)
+
+        # calculate max_dist
+        max_dist_bound1 = np.sum(np.max(distances[:n], axis=1))
+        max_dist_bound2 = np.max(distances) * (n-m+1)
+
+        max_dist = np.min([max_dist_bound1, max_dist_bound2])
+
         min1 = min(distances[n][:n])
         min2 = min([x[n] for x in distances[:n]])
 
@@ -37,6 +46,7 @@ def main():
         text += f'time = {time};\n'
         text += f'l = [{", ".join(l)}];\n'
         text += f's = [{", ".join(s)}];\n'
+        text += f'max_dist = {max_dist};\n'
 
         text += 'distances = [| '
         for i in range(n+1):
