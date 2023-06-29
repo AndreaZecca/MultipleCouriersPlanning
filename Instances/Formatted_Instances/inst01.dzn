@@ -1,7 +1,7 @@
 m = 2;
 n = 6;
 mindist = 4;
-time = 6;
+time = 5;
 l = [15, 10];
 s = [3, 2, 6, 5, 4, 4];
 max_dist = 40;
