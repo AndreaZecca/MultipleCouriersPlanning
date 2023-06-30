@@ -1,10 +1,11 @@
 m = 2;
 n = 3;
-mindist = 118;
-time = 3;
 l = [18, 30];
 s = [20, 17, 6];
+min_dist = 118;
 max_dist = 271;
+time = 3;
+at_least_one = 1;
 distances = [| 0, 21, 86, 99, 
  		     | 21, 0, 71, 80, 
  		     | 92, 71, 0, 61, 

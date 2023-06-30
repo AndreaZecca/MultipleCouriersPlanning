@@ -6,7 +6,7 @@ def main():
     for instance in sorted(os.listdir("./Original_Instances")):
         if not instance.endswith(".dat"):
             continue
-        print(f"Instance: {instance}")
+        # print(f"Instance: {instance}")
         with open(f"./Original_Instances/{instance}") as f:
             text = f.read()
         lines = text.split("\n")
@@ -20,16 +20,16 @@ def main():
         s = [int(x) for x in re.findall(num_regex, lines[3])]
 
         # count min package per courier
-        min_package_count = 0
+        each_courier_at_least_one = 0
         sorted_packages = sorted(s, reverse=True)
         sorted_load = sorted(l, reverse=True)
-        for pack_index, courier_load in enumerate(sorted_load):
-            if courier_load < sorted_packages[pack_index]:
+        for i in range(m):
+            if sorted_load[i] < sorted_packages[i]:
                 break
         else:
-            min_package_count = 1
-        
-        time_bound1 = min_package_count + n - min_package_count * m + 1
+            each_courier_at_least_one = 1
+            
+        time_bound1 = each_courier_at_least_one + n - each_courier_at_least_one * m + 1
 
         # count max package per courier 
         max_load = max(l)
@@ -45,7 +45,7 @@ def main():
         time_bound2 = max_package_count + 1 # max_package_count + 2 - 1 since 0-indexed
         
         time = min(time_bound1, time_bound2)
-        print('Original:', n + 1, 'Bound1:', time_bound1, 'Bound2:', time_bound2, 'Min:', time)
+        # print('Original:', n + 1, 'Bound1:', time_bound1, 'Bound2:', time_bound2, 'Min:', time)
         
         distances = []
         for i in range(4, 4 + n + 1):
@@ -57,7 +57,7 @@ def main():
         max_dist_bound1 = np.sum(np.max(distances[:n], axis=1))
         max_dist_bound2 = np.sum(sorted(distances.flatten(), reverse=True)[:time+1])
 
-        if min_package_count == 0:
+        if each_courier_at_least_one == 0:
             max_dist = max_dist_bound1
         else:
             max_dist = np.min([max_dist_bound1, max_dist_bound2])
@@ -66,7 +66,7 @@ def main():
         min2 = min([x[n] for x in distances[:n]])
 
         
-        if min_package_count == 0:
+        if each_courier_at_least_one == 0:
             mindist = 0
         else:
             mindist = min(min1, min2)*2
@@ -77,11 +77,12 @@ def main():
 
         text += f'm = {m};\n'
         text += f'n = {n};\n'
-        text += f'mindist = {mindist};\n'
-        text += f'time = {time};\n'
         text += f'l = [{", ".join(l)}];\n'
         text += f's = [{", ".join(s)}];\n'
+        text += f'min_dist = {mindist};\n'
         text += f'max_dist = {max_dist};\n'
+        text += f'time = {time};\n'
+        text += f'at_least_one = {each_courier_at_least_one};\n'
 
         text += 'distances = [| '
         for i in range(n+1):
@@ -95,6 +96,6 @@ def main():
 
         with open (f"Formatted_Instances/{instance}", "w") as f:
             f.write(text)
-        print()
+        # print()
 if __name__ == '__main__':
     main()

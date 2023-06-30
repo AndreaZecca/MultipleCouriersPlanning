@@ -1,23 +1,24 @@
 include "globals.mzn";
 
 %%%%%%%%% DATA %%%%%%%%%%
-int: m;   % couriers
-int: n;   % packages (n >= m)
+int: m; 
+int: n;   
 int: time;
-array[1..m] of int: l;   % max load of each courier
-array[1..n] of int: s;   % package sizes
-array[1..n+1, 1..n+1] of int: distances;   % distances between packages
-
-int :mindist;%= min(distances[n,0..n]) + min(distances[0..n,n]); % minimum distance to travel when all courriers must deliver at least one package
+int : min_dist;
 int : max_dist;
+int : at_least_one;
+array[1..m] of int: l; 
+array[1..n] of int: s; 
+array[1..n+1, 1..n+1] of int: distances;   
+
 %%%%%%%% VARIABLES %%%%%%%%%%
 % x[i,k] is the package taken at time k by courier i
 array[1..m,0..time] of var 1..n+1: x; 
 
 % y[i] is the total distance travelled by courier i
-array[1..m] of var mindist..max_dist: y;  
+array[1..m] of var min_dist..max_dist: y;  
 
-% TODO: Do we actually need this variable?
+% load[i] is the total load of courier i
 array[1..m] of var 0..sum([l[i] | i in 1..m]): load;
 
 %%%%%%%% CONSTRAINTS %%%%%%%%%%
@@ -39,35 +40,27 @@ constraint
     forall(j in 1..n) (
         count_eq(x, j, 1)
     )::domain;
-    
-% each courier must deliver at least one package
-% TODO: check this constraint. With this => lower performance
-% constraint 
-%     forall(i in 1..m) (
-%         x[i,1] != n+1
-%     );
 
-% Other ways to express the same constraint
-% -------------- Combination of alldifferent + among ----------------
-% constraint alldifferent([x[i,k] | i in 1..m, k in 1..time-1 where x[i,k] != n+1])::domain;
-% constraint among(n, x, 1..n)::domain;
-
-% -------------- Using partition_set ----------------
-% constraint partition_set([array2set([x[i,k] | k in 1..n+1 where x[i,k] != n+1]) | i in 1..m],1..n);
-
+% if we know that each courier must deliver at least one package:
+constraint 
+        at_least_one == 1 ->
+        forall(i in 1..m)(
+            x[i,1] < n+1 /\
+            load[i] > 0
+        )::domain;
 
 %%%%%%%% SYMMETRY BREAKING CONSTRAINTS %%%%%%%%%%
 % once a courier arrive to depot (j = n+1), it can't depart from there
 constraint
     forall(i in 1..m, k in 2..time-1 where x[i,k-1] == n+1)(
          x[i,k] = n+1
-    );
+    )::domain;
 
 % symetry breaking constraint between couriers with specified load using lex
 constraint
     forall(i in 1..m-1, z in i+1..m where l[i] == l[z])(
         lex_lesseq([x[i,k] | k in 1..time-1] , [x[z,k1] | k1 in 1..time-1])
-    );
+    )::domain;
 
 % symmetry breaking constraint between couriers with >= max load
 constraint
@@ -80,29 +73,11 @@ constraint
     forall(i in 1..m)(
         y[i] = sum(k in 1..time)(distances[x[i,k-1],x[i,k]])
     );
-
-
-% extra:
-constraint
-    forall(i in 1..m)(
-        x[i,1] < n+1 /\
-        load[i] > 0
-    )::domain;
     
-% constraint
-%     forall(i in 1..m, k in n-m+1..n)(
-%         x[i,k] = n+1
-%     );
-    
-% constraint
-%     forall(i in 1..m)(
-%         y[i] >= mindist
-%     );
-
 %%%%%%%% SEARCH STRATEGY %%%%%%%%%% (Gecode on inst12)
 %solve :: int_search(x, dom_w_deg, indomain_min)  minimize max(y); % --3.5 secondss
-%solve :: int_search(x, dom_w_deg, indomain_random)  :: restart_linear(10000) minimize max(y);   % FOR GECODE
-solve :: int_search(x, first_fail, indomain_min) minimize max(y); % FOR CHUFFED
+solve :: int_search(x, dom_w_deg, indomain_random)  :: restart_linear(10000) minimize max(y);   % FOR GECODE
+% solve :: int_search(x, first_fail, indomain_min) minimize max(y); % FOR CHUFFED
   
 % output
 output 
