@@ -53,7 +53,7 @@ constraint
 % couriers do not exceed their max load
 constraint
     forall(i in 1..m) (
-        sum([(if x[i, j1] == 0 then 0 else s[j1]) | j1 in 1..n]) <= l[i]
+        sum([(if x[i, j1] == 0 then 0 else s[j1] endif) | j1 in 1..n]) <= l[i]
     );
 
 % each package is delivered
@@ -68,11 +68,12 @@ constraint
 constraint
     forall(i in 1..m) (
         y[i] = sum([
-            if x[i, j1] == 0 then
+            (if x[i, j1] == 0 then
                 0
             else
                 distances[j1, x[i, j1]]
-        | j1 in 1..])
+            endif)
+        | j1 in 1..n+1])
     );
 
 %%%%%%%% SEARCH STRATEGY %%%%%%%%%% (Gecode on inst12)
