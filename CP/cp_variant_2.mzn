@@ -13,8 +13,6 @@ array[1..n+1, 1..n+1] of int: distances;
 
 %%%%%%%%% VARIABLES %%%%%%%%%%
 
-var min_dist..max_dist: effective_max_dist;
-
 % x[i, j1] = j2 means that the ith courier will go from the j1th node to the j2th node
 % An assignment of 0 means that the courier will not start from j1
 array[1..m, 1..n+1] of var 1..n+1: x;
@@ -28,8 +26,6 @@ array[1..m] of var at_least_one..sum([s[j] | j in 1..n]): load;
 
 array[1..m] of var at_least_one..time: numpacks;
 
-array[1..n] of var 1..m : bins;
-
 %%%%%%%% PREDICATES %%%%%%%%%%
 predicate at_most_one(array[int] of var bool:x) =
           forall(i,j in index_set(x) where i < j)(
@@ -40,16 +36,20 @@ predicate exactly_one(array[int] of var bool:x) =
 
 %%%%%%%% CONSTRAINTS %%%%%%%%%%
 % couriers start and end at depot (j = n+1)
-% constraint
-%     forall(i in 1..m) (
-%         x[i, n+1] = n+1 <-> (forall(j1 in 1..n)(x[i, j1] = j1))   
-%     );
+
+% originale
 
 constraint
-    forall(i in 1..m)(
-        if x[i, n+1] != n+1 then count([x[i, j1] | j1 in 1..n], n+1, 1) 
-        else forall(k in 1..n) (x[i, k] = k) endif
-    );
+    if at_least_one == 1 then
+        forall(i in 1..m)(
+            exists(j1 in 1..n)(x[i, j1] != j1)
+            /\ x[i, n+1] < n + 1
+        )
+    else
+        forall(i in 1..m)(
+            x[i, n+1] < n + 1 <-> (exists(j1 in 1..n)(x[i, j1] != j1))
+        )
+    endif;
 
 % couriers do not exceed their max load
 constraint
@@ -66,31 +66,11 @@ constraint
 
 % each package is delivered exactly once
 constraint
-    forall(j in 1..n) (
+    forall(pac in 1..n) (
         exactly_one(
-            [x[i, j] != j | i in 1..m]
+            [x[i, pac] != pac | i in 1..m]
         )
     );
-
-% bins creation
-constraint bin_packing_load(load, bins, s);
-
-% link bins and x
-constraint 
-    forall(j in 1..n)(
-        x[bins[j], j] != j
-    );
-
-% constraint 
-%     forall(j in 1..n)(
-%         count_eq([x[i, j] == j | i in 1..m], 0, 1)
-%     );
-
-% constraint
-%     forall(j in 1..n)(
-%         nvalue(2,[x[i, j] | i in 1..m])
-%     );
-
 
 %%%%%%% TIME BOUNDS %%%%%%%%%
 constraint
@@ -102,11 +82,14 @@ constraint
 %%%%%%%% OBJECTIVE %%%%%%%%%%
 constraint
     forall(i in 1..m) (
-        y[i] = sum([ distances[j1, x[i, j1]] | j1 in 1..n+1])
+        y[i] = sum([
+            (if x[i, j1] == j1 then
+                0
+            else
+                distances[j1, x[i, j1]]
+            endif)
+        | j1 in 1..n+1])
     );
-
-constraint
-    effective_max_dist = max(y);
 
 %%%%%%%%% SYMMETRY BREAKING %%%%%%%%%%
 constraint
@@ -121,8 +104,8 @@ constraint
 
 %%%%%%%% SEARCH STRATEGY %%%%%%%%%% (Gecode on inst12)
 %solve :: int_search(x, dom_w_deg, indomain_min)  minimize max(y); % --3.5 secondss
-%solve ::int_search(x, dom_w_deg, indomain_random) :: restart_linear(1000) minimize effective_max_dist;   % FOR GECODE
-solve :: int_search(x, first_fail, indomain_min) minimize effective_max_dist; % FOR CHUFFED
+%solve ::int_search(x, dom_w_deg, indomain_random) :: restart_linear(10000) minimize max(y);   % FOR GECODE
+solve :: int_search(x, first_fail, indomain_min) minimize max(y); % FOR CHUFFED
 % solve satisfy;
 
 % output

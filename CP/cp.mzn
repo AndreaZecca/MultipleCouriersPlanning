@@ -21,6 +21,9 @@ array[1..m] of var min_dist..max_dist: y;
 % load[i] is the total load of courier i
 array[1..m] of var 0..sum([l[i] | i in 1..m]): load;
 
+
+var min_dist..max_dist: effective_max_dist;
+
 %%%%%%%% CONSTRAINTS %%%%%%%%%%
 % couriers start and end at depot (j = n+1)
 constraint 
@@ -77,11 +80,14 @@ constraint
     forall(i in 1..m)(
         y[i] = sum(k in 1..time)(distances[x[i,k-1],x[i,k]])
     );
-    
+
+constraint
+    effective_max_dist == max(y);
+
 %%%%%%%% SEARCH STRATEGY %%%%%%%%%% (Gecode on inst12)
 %solve :: int_search(x, dom_w_deg, indomain_min)  minimize max(y); % --3.5 secondss
 %solve ::int_search(x, dom_w_deg, indomain_random) :: restart_linear(10000) minimize max(y);   % FOR GECODE
-solve :: int_search(x, first_fail, indomain_min) minimize max(y); % FOR CHUFFED
+solve :: int_search(x, first_fail, indomain_min) minimize effective_max_dist; % FOR CHUFFED
   
 % output
 output 

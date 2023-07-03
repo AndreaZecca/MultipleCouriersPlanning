@@ -2,6 +2,41 @@ import os
 import re
 import numpy as np
 
+import sys
+
+def shortest_path_k_nodes(graph, start, k):
+    n = len(graph)
+
+    # Initialize the 3D DP array.
+    dp = [[[sys.maxsize for _ in range(k+1)] for _ in range(n)] for _ in range(n)]
+    
+    for i in range(n):
+        for j in range(n):
+            if i == j and graph[i][j] != -1: # there's a direct edge between i and j
+                dp[i][j][1] = graph[i][j]
+            
+    # Compute shortest paths for each pair (i, j) using paths of length 1 through k.
+    for k_iter in range(2, k+1):
+        for i in range(n):
+            for j in range(n):
+                if i != j or k_iter == k:  # Only allow the start and end nodes to be the same if path length is k.
+                    dp[i][j][k_iter] = min(dp[i][j][k_iter], min([dp[i][m][k_iter-1] + dp[m][j][1] for m in range(n) if m != i or m != j]))
+                
+    # Return shortest path from start to end using exactly k nodes.
+    return dp[start][start][k]
+
+def to_graph(distances):
+    graph = [[None] * len(distances) for _ in range(len(distances))]
+    for i in range(len(distances)):
+        for j in range(len(distances)):
+            if i == j:
+                graph[i][j] = -1
+            else:
+                graph[i][j] = distances[i][j]
+    
+    return graph
+
+
 def main():
     for instance in sorted(os.listdir("./Original_Instances")):
         if not instance.endswith(".dat"):
@@ -70,7 +105,22 @@ def main():
             mindist = 0
         else:
             mindist = min(min1, min2)*2
+        
+        # calculate min_solution
 
+        min_solution = np.max([distances[n, j] + distances[j, n] for j in range(n)])
+        print('Min_solution (original):', min_solution)
+
+        min_max_packages = int(np.ceil(m / n))
+
+        if each_courier_at_least_one == 1 and m > n:
+            bound = 10**6
+            min_solution = np.max([
+                dista
+            ])
+
+        max_load = np.sum(sorted(s, reverse=True)[:time])
+        
         text = ''
         l = [str(x) for x in l]
         s = [str(x) for x in s]
@@ -81,9 +131,10 @@ def main():
         text += f's = [{", ".join(s)}];\n'
         text += f'min_dist = {mindist};\n'
         text += f'max_dist = {max_dist};\n'
+        text += f'min_solution = {min_solution};\n'
         text += f'time = {time};\n'
         text += f'at_least_one = {each_courier_at_least_one};\n'
-
+        text += f'max_load = {max_load};\n'
         text += 'distances = [| '
         for i in range(n+1):
             text += ', '.join([str(x) for x in distances[i]])
