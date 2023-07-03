@@ -6,14 +6,17 @@ int: n;
 int: time;
 int : min_dist;
 int : max_dist;
+int: min_solution;
 int : at_least_one;
 array[1..m] of int: l; 
 array[1..n] of int: s; 
+int : min_load;
+int : max_load;
 array[1..n+1, 1..n+1] of int: distances;
 
 %%%%%%%%% VARIABLES %%%%%%%%%%
 
-var min_dist..max_dist: effective_max_dist;
+var min_solution..max_dist: effective_max_dist;
 
 % x[i, j1] = j2 means that the ith courier will go from the j1th node to the j2th node
 % An assignment of 0 means that the courier will not start from j1
@@ -24,7 +27,7 @@ array[1..m] of var min_dist..max_dist: y;
 
 % load[i] is the total load of courier i
 % HINT: pass max_load to the model
-array[1..m] of var at_least_one..sum([s[j] | j in 1..n]): load;
+array[1..m] of var min_load..max_load: load;
 
 array[1..m] of var at_least_one..time: numpacks;
 
@@ -81,15 +84,25 @@ constraint
         x[bins[j], j] != j
     );
 
-% constraint 
-%     forall(j in 1..n)(
-%         count_eq([x[i, j] == j | i in 1..m], 0, 1)
+% constraint on bins
+constraint
+    forall(i in 1..m)(
+        count_leq(bins, i, numpacks[i])
+    );
+
+% constraint on bins
+% constraint
+%     forall(i in 1..m)(
+%         count_leq(bins, i, time)
 %     );
 
+% triangular inequality over x
 % constraint
-%     forall(j in 1..n)(
-%         nvalue(2,[x[i, j] | i in 1..m])
+%     forall(i in 1..m, j1 in 1..n+1, j2 in 1..n+1 where j1 != j2 /\ x[i,j1] != j1 )(
+%         distances[x[i,j1], x[i,x[i,j1]]] <= distances[x[i, j1], j2] + distances[j2, x[i,x[i,j1]]] 
 %     );
+
+
 
 
 %%%%%%% TIME BOUNDS %%%%%%%%%

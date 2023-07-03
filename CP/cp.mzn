@@ -6,10 +6,13 @@ int: n;
 int: time;
 int : min_dist;
 int : max_dist;
+int: min_solution;
 int : at_least_one;
 array[1..m] of int: l; 
 array[1..n] of int: s; 
-array[1..n+1, 1..n+1] of int: distances; 
+int : min_load;
+int : max_load;
+array[1..n+1, 1..n+1] of int: distances;
 
 %%%%%%%% VARIABLES %%%%%%%%%%
 % x[i,k] is the package taken at time k by courier i
@@ -19,10 +22,13 @@ array[1..m,0..time] of var 1..n+1: x;
 array[1..m] of var min_dist..max_dist: y;  
 
 % load[i] is the total load of courier i
-array[1..m] of var 0..sum([l[i] | i in 1..m]): load;
+array[1..m] of var min_load..max_load: load;
 
+% max(y) is the maximum distance travelled by a courier
+var min_solution..max_dist: effective_max_dist;
 
-var min_dist..max_dist: effective_max_dist;
+% bins[j] = i means that package j is taken by courier i (used in bin_packing)
+array[1..n] of var 1..m : bins;
 
 %%%%%%%% CONSTRAINTS %%%%%%%%%%
 % couriers start and end at depot (j = n+1)
@@ -51,6 +57,18 @@ constraint
             x[i,1] < n+1 /\
             load[i] > 0
         );
+
+% bin packing constraint
+constraint
+    bin_packing_load(load, bins, s);
+
+% link bins with x
+constraint
+    forall(j in 1..n)(
+        exists(k in 1..time)(
+            x[bins[j],k] = j
+        )
+    );
 
 %%%%%%%% SYMMETRY BREAKING CONSTRAINTS %%%%%%%%%%
 % once a courier arrive to depot (j = n+1), it can't depart from there
@@ -86,7 +104,7 @@ constraint
 
 %%%%%%%% SEARCH STRATEGY %%%%%%%%%% (Gecode on inst12)
 %solve :: int_search(x, dom_w_deg, indomain_min)  minimize max(y); % --3.5 secondss
-%solve ::int_search(x, dom_w_deg, indomain_random) :: restart_linear(10000) minimize max(y);   % FOR GECODE
+%solve ::int_search(x, dom_w_deg, indomain_random) :: restart_linear(1000) minimize effective_max_dist;   % FOR GECODE
 solve :: int_search(x, first_fail, indomain_min) minimize effective_max_dist; % FOR CHUFFED
   
 % output
