@@ -9,7 +9,7 @@ int : max_dist;
 int : at_least_one;
 array[1..m] of int: l; 
 array[1..n] of int: s; 
-array[1..n+1, 1..n+1] of int: distances;   
+array[1..n+1, 1..n+1] of int: distances; 
 
 %%%%%%%% VARIABLES %%%%%%%%%%
 % x[i,k] is the package taken at time k by courier i
@@ -39,7 +39,7 @@ constraint
 constraint 
     forall(j in 1..n) (
         count_eq(x, j, 1)
-    )::domain;
+    );
 
 % if we know that each courier must deliver at least one package:
 constraint 
@@ -47,26 +47,30 @@ constraint
         forall(i in 1..m)(
             x[i,1] < n+1 /\
             load[i] > 0
-        )::domain;
+        );
 
 %%%%%%%% SYMMETRY BREAKING CONSTRAINTS %%%%%%%%%%
 % once a courier arrive to depot (j = n+1), it can't depart from there
 constraint
     forall(i in 1..m, k in 2..time-1 where x[i,k-1] == n+1)(
          x[i,k] = n+1
-    )::domain;
+    );
 
 % symetry breaking constraint between couriers with specified load using lex
 constraint
     forall(i in 1..m-1, z in i+1..m where l[i] == l[z])(
         lex_lesseq([x[i,k] | k in 1..time-1] , [x[z,k1] | k1 in 1..time-1])
-    )::domain;
+    );
 
 % symmetry breaking constraint between couriers with >= max load
 constraint
     forall(i in 1..m-1, z in i+1..m where l[i] >= l[z])(
         load[i] >= load[z]
-    )::domain;
+    );
+
+% alldifferent on all the elements of x different from n+1
+constraint
+    alldifferent([x[i,k] | i in 1..m, k in 1..time-1 where x[i,k] != n+1]);
 
 %%%%%%%% OBJECTIVE %%%%%%%%%%
 constraint
@@ -76,8 +80,8 @@ constraint
     
 %%%%%%%% SEARCH STRATEGY %%%%%%%%%% (Gecode on inst12)
 %solve :: int_search(x, dom_w_deg, indomain_min)  minimize max(y); % --3.5 secondss
-solve :: int_search(x, dom_w_deg, indomain_random)  :: restart_linear(10000) minimize max(y);   % FOR GECODE
-% solve :: int_search(x, first_fail, indomain_min) minimize max(y); % FOR CHUFFED
+%solve ::int_search(x, dom_w_deg, indomain_random) :: restart_linear(10000) minimize max(y);   % FOR GECODE
+solve :: int_search(x, first_fail, indomain_min) minimize max(y); % FOR CHUFFED
   
 % output
 output 
