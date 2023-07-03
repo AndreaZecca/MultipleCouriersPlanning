@@ -53,14 +53,14 @@ constraint
 % couriers do not exceed their max load
 constraint
     forall(i in 1...m) (
-        sum([s[j] | j in 1...n+1, k in 1...time] (fix(x[i, k]) == j)) <= l[i]
+        sum([(if x[i, j1] == 0 then 0 else s[j1]) | j1 in 1...n]) <= l[i]
     );
 
 % each package is delivered
 constraint
-    forall(j2 in 1...n) (
-        exists(i in 1...m, j1 in 1...time) (
-            x[i, j1] = j2
+    forall(j1 in 1...n) (
+        exists(i in 1...m) (
+            x[i, j1] != 0
         )
     );
 
