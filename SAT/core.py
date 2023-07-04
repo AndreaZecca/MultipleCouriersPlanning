@@ -1,7 +1,6 @@
 from .sat_pseudobool import *
 from .sat_standard import *
 
-
 def add_additional_info(instance):
     m = instance["m"]
     l = instance["l"]
@@ -33,8 +32,7 @@ def format_solution(m, n, time, model, v):
 
     return solution
 
-
-def run_mcp(instance, use_pb=True):
+def run_sat(add_intermediate_solution, instance, use_pb=True):
     # copy of the instance since we will modify it
     instance = dict(instance)
     if use_pb:
@@ -95,5 +93,6 @@ def run_mcp(instance, use_pb=True):
         else:
             # if the problem is sat, we save the solution
             best_solution = format_solution(instance['m'], instance['n'], instance['time'], res, v)
+            add_intermediate_solution(best_solution)
             upper_bound = pivot
             pivot = (upper_bound + lower_bound) // 2
