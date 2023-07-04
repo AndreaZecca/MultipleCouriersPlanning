@@ -16,21 +16,23 @@ array[1..n+1, 1..n+1] of int: distances;
 
 %%%%%%%%% VARIABLES %%%%%%%%%%
 
+% effective_max_dist is the maximum distance traveled by a courier
 var min_solution..max_dist: effective_max_dist;
 
 % x[i, j1] = j2 means that the ith courier will go from the j1th node to the j2th node
-% An assignment of 0 means that the courier will not start from j1
+% if x[i, k] = k then the courier i is not going to visit the node k
 array[1..m, 1..n+1] of var 1..n+1: x;
 
 % y[i] is the total distance travelled by courier i
 array[1..m] of var min_dist..max_dist: y;
 
 % load[i] is the total load of courier i
-% HINT: pass max_load to the model
 array[1..m] of var min_load..max_load: load;
 
+% numpacks[i] is the number of packages delivered by courier i
 array[1..m] of var at_least_one..time: numpacks;
 
+% bins[j] is the courier that will deliver the jth package - Tunneling approach using bin packing
 array[1..n] of var 1..m : bins;
 
 %%%%%%%% PREDICATES %%%%%%%%%%
@@ -42,12 +44,7 @@ predicate exactly_one(array[int] of var bool:x) =
           at_most_one(x) /\ exists(x);
 
 %%%%%%%% CONSTRAINTS %%%%%%%%%%
-% couriers start and end at depot (j = n+1)
-% constraint
-%     forall(i in 1..m) (
-%         x[i, n+1] = n+1 <-> (forall(j1 in 1..n)(x[i, j1] = j1))   
-%     );
-
+% courier stars and ends at the depot
 constraint
     forall(i in 1..m)(
         if x[i, n+1] != n+1 then count([x[i, j1] | j1 in 1..n], n+1, 1) 
@@ -87,30 +84,8 @@ constraint
 % constraint on bins
 constraint
     forall(i in 1..m)(
-        count_leq(bins, i, numpacks[i])
+        count_eq(bins, i, numpacks[i])
     );
-
-% constraint on bins
-% constraint
-%     forall(i in 1..m)(
-%         count_leq(bins, i, time)
-%     );
-
-% triangular inequality over x
-% constraint
-%     forall(i in 1..m, j1 in 1..n+1, j2 in 1..n+1 where j1 != j2 /\ x[i,j1] != j1 )(
-%         distances[x[i,j1], x[i,x[i,j1]]] <= distances[x[i, j1], j2] + distances[j2, x[i,x[i,j1]]] 
-%     );
-
-
-
-
-%%%%%%% TIME BOUNDS %%%%%%%%%
-constraint
-    forall(i in 1..m)(
-        count_eq([x[i, j1] == j1 | j1 in 1..n], 0, numpacks[i])
-    );
-
 
 %%%%%%%% OBJECTIVE %%%%%%%%%%
 constraint
@@ -133,22 +108,12 @@ constraint
     );
 
 %%%%%%%% SEARCH STRATEGY %%%%%%%%%% (Gecode on inst12)
-%solve :: int_search(x, dom_w_deg, indomain_min)  minimize max(y); % --3.5 secondss
-%solve ::int_search(x, dom_w_deg, indomain_random) :: restart_linear(1000) minimize effective_max_dist;   % FOR GECODE
-solve :: int_search(x, first_fail, indomain_min) minimize effective_max_dist; % FOR CHUFFED
-% solve satisfy;
+solve :: int_search(x, first_fail, indomain_min) minimize effective_max_dist; 
 
-% output
-% output 
-    % [
-    %     "\nDistances traveled by each courier: \n"
-    % ] ++ 
-    % [
-    %     "Courier \(i) = \(y[i]);\n" | i in (1..m)
-    % ] ++
-    % [
-    %     "\nPath taken by each courier: \n"
-    % ] ++
-    % [
-    %     "Courier \(i) starts from \(j1) and arrives to \(j2); \n"  | i in (1..m), j1 in (1..n+1), j2 in (1..n+1) where fix(x[i,j1]) == j2 /\ x[i, j1] != j1
-    % ];
+% output x and y
+output [
+    "\(x)"
+] ++
+[
+    "\(y)"
+]
