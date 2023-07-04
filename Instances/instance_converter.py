@@ -76,7 +76,7 @@ def main():
 
         min_solution = np.max([distances[n, j] + distances[j, n] for j in range(n)])
 
-        max_load = np.sum(sorted(s, reverse=True)[:time])
+        max_load = np.min([np.max(l), np.sum(sorted(s, reverse=True)[:time])])
         min_load = np.min(s) * each_courier_at_least_one
 
         text = ''

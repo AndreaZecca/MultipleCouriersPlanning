@@ -8,7 +8,7 @@ min_solution = 160;
 time = 3;
 at_least_one = 1;
 min_load = 6;
-max_load = 43;
+max_load = 30;
 distances = [| 0, 21, 86, 99, 
  		     | 21, 0, 71, 80, 
  		     | 92, 71, 0, 61, 
