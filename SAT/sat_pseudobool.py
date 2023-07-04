@@ -3,7 +3,7 @@ import click
 import numpy as np
 from z3 import *
 
-from utils import *
+from .utils import *
 
 
 ############ support functions ############

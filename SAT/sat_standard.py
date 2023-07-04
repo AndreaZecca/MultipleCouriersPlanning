@@ -3,7 +3,7 @@ import click
 import numpy as np
 from z3 import *
 
-from utils import *
+from .utils import *
 
 
 ############ support functions ############
@@ -146,9 +146,7 @@ def add_distance_constraint_standard(solver, instance, v, d, upperBound):
 
     while np.sum(flattened_distances[:max_k]) <= upperBound and max_k < n:
         max_k += 1
-
-    print('max_k', max_k)
-
+        
     if max_k < time:
         for i in range(m):
             solver.add(v[i][n][max_k + 1])

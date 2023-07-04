@@ -1,5 +1,5 @@
-from sat_pseudobool import *
-from sat_standard import *
+from .sat_pseudobool import *
+from .sat_standard import *
 
 
 def add_additional_info(instance):
@@ -18,6 +18,22 @@ def solve_mcp(solver):
     else:  
         return unsat
 
+def format_solution(m, n, time, model, v):
+    solution = []
+
+    for i in range(m):
+        courier_solution = []
+
+        for k in range(time):
+            for j in range(n):
+                if model[v[i][j][k]]:
+                    courier_solution.append(j + 1)
+
+        solution.append(courier_solution)
+
+    return solution
+
+
 def run_mcp(instance, use_pb=True):
     # copy of the instance since we will modify it
     instance = dict(instance)
@@ -28,6 +44,8 @@ def run_mcp(instance, use_pb=True):
         mcp = mcp_standard
         add_constraint = add_distance_constraint_standard
 
+    # add additional info to the instance
+    add_additional_info(instance)
     # original upper bound -> used in the binary search to check if the problem is unsat
     original_upper_bound = instance["max_dist"]
     # lower bound for the binary search
@@ -43,16 +61,14 @@ def run_mcp(instance, use_pb=True):
 
     res = None
 
+    best_solution = None
+
     # binary search using bounds
     while True:
+        # print('Lower:', lower_bound, 'Upper:', upper_bound, 'Pivot:', pivot)
         # if the lower bound is equal to the upper bound, we have found the optimal solution
-        if lower_bound == upper_bound:
-            if res is None:
-                # the instance has never been run before
-                res = solve_mcp(solver, instance, v, verbose)
-            if res is unsat:
-                res = None
-            return upper_bound, res
+        if lower_bound >= upper_bound and res is not None:
+            return best_solution
 
         # push/pop mechanism for adding new constraint and solving the problem
         solver.push()
@@ -61,18 +77,15 @@ def run_mcp(instance, use_pb=True):
         add_constraint(solver, instance, v, d, pivot)
 
         # solve the problem with the current constraints
-        res = solve_mcp(solver, instance, v, verbose)
+        res = solve_mcp(solver)
 
         # if the problem is unsat
-        if res is unsat:
+        if res == unsat:
             # if we reached an ending point in the binary search
-            if lower_bound > upper_bound:
+            if lower_bound >= original_upper_bound:
                 # if the upper bound is equal to the original upper bound, the problem is unsat since we never found a solution
-                if upper_bound == original_upper_bound:
-                    return None
-                # otherwise, the upper bound is the optimal solution
-                else:
-                    return upper_bound, res
+                return None
+            
             # updating lower
             lower_bound = pivot + 1
             # pop the constraint since we will add a new one
@@ -80,5 +93,7 @@ def run_mcp(instance, use_pb=True):
             # update the pivot
             pivot = (upper_bound + lower_bound) // 2
         else:
+            # if the problem is sat, we save the solution
+            best_solution = format_solution(instance['m'], instance['n'], instance['time'], res, v)
             upper_bound = pivot
             pivot = (upper_bound + lower_bound) // 2
