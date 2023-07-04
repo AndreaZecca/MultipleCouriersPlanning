@@ -2,7 +2,6 @@ from mip import *
 import numpy as np
 
 def generate_mip_model(instance, solver_name):
-    print(solver_name)
     n = instance["n"]
     m = instance["m"]
     l = instance["l"]
@@ -100,7 +99,6 @@ def generate_mip_model(instance, solver_name):
     model.threads = -1
     model.verbose = 0
     model.objective = minimize(v)
-    model.optimize()
     return model, x
 
 def find_next(x, i, node, n):
@@ -122,12 +120,9 @@ def format_solution(instance, x):
     return solution
 
 def run_mip(instance, timeout, solver):
-    print(timeout)
     model, x = generate_mip_model(instance, solver)  
-    model.timeLimit = timeout
-    model.optimize() 
-    print("fine ottimizzazione")
-    print(model.status)
+    model.optimize(max_seconds=timeout)
+    print("Status:", model.status)
     if model.status in [OptimizationStatus.OPTIMAL, OptimizationStatus.FEASIBLE]:
         solution = format_solution(instance, x)
         isOptimal = model.status == OptimizationStatus.OPTIMAL

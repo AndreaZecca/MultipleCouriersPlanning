@@ -121,6 +121,19 @@ def to_mzn(instance):
 
     return text
 
+def distances_from_solution(instance, solution):
+    distance = np.array(instance["distances"])
+    n = instance["n"]
+    m = instance["m"]
+    courier_dist = np.zeros(m)
+    solution = [[n+1] + x + [n+1] for x in solution]
+    for i in range(m):
+        for j in range(len(solution[i])-1):
+            # -1 since 0-indexed
+            courier_dist[i] += distance[solution[i][j]-1][solution[i][j+1]-1]
+    return courier_dist
+
+
 @click.command()
 @click.argument('config_file', type=click.File('r'))
 def main(config_file):
@@ -144,6 +157,10 @@ def main(config_file):
         raise RuntimeError('Unknown method')
     if result is not None:
         solution, optimal = result
-        print(solution)
+        distances = distances_from_solution(instance, solution)
+        print(f"Optimal: {optimal}")
+        print(f"Distances: {distances}")
+        print(f"Solution: {solution}")
+        print(f"Max distance: {max(distances)}")
 if __name__ == '__main__':
     main()
