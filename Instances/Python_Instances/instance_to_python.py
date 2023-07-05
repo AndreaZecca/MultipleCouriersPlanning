@@ -24,7 +24,7 @@ def main():
         min_load = int(re.findall(num_regex, lines[9])[0])
         max_load = int(re.findall(num_regex, lines[10])[0])
         distances = []
-        for i in range(11, 11 + n):
+        for i in range(11, 11 + n + 1):
             distances.append([int(x) for x in re.findall(num_regex, lines[i])])
         distances = np.array(distances)
 
