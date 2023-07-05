@@ -24,7 +24,7 @@ def main():
         min_load = int(re.findall(num_regex, lines[9])[0])
         max_load = int(re.findall(num_regex, lines[10])[0])
         distances = []
-        for i in range(11, 11 + m):
+        for i in range(11, 11 + n):
             distances.append([int(x) for x in re.findall(num_regex, lines[i])])
         distances = np.array(distances)
 
@@ -40,7 +40,7 @@ def main():
         py_inst += f"    's': {s},\n"
         py_inst += f"    'min_dist': {min_dist},\n"
         py_inst += f"    'max_dist': {max_dist},\n"
-        py_inst += f"    'min_solu': {min_solu},\n"
+        py_inst += f"    'min_solution': {min_solu},\n"
         py_inst += f"    'time': {time},\n"
         py_inst += f"    'at_least_one': {at_least_one},\n"
         py_inst += f"    'min_load': {min_load},\n"
