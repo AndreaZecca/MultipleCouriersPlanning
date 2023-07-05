@@ -1,5 +1,5 @@
 {
-    "instance" : "./Instances/Original_Instances/inst10.dat",
+    "instance" : "./Instances/Original_Instances/inst05.dat",
     "method" : "mip",
     "solver": "cbc",
     "pb" : true,

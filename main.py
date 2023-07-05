@@ -105,18 +105,25 @@ def add_additional_info(data):
 
 def to_mzn(instance):
     text = ''
+    n = instance["n"]
     for k, v in instance.items():
         if isinstance(v, list):
             v = np.array(v)
             if len(v.shape) == 1:        
-                formatted_v = '[' + ', '.join([str(x) for x in v]) + ']'
+                v = '[' + ', '.join([str(x) for x in v]) + ']'
             elif len(v.shape) == 2:
-                formatted_v = ''
+                # formatted_v = ''
                 #for i,row in v:
                 #    formatted_v += '[' + ', '.join([str(x) for x in row]) + '],\n'
 
-                v = '[|' + ((' ' * len(k) + ',\n')).join([', '.join([str(y) for y in x]) for x in v]) + '|]'
-        
+                # v = '[|' + ((' ' * len(k) + ',\n')).join([', '.join([str(y) for y in x]) for x in v]) + '|]'
+                formatted_v = '[|'
+                for i,row in enumerate(v):
+                    formatted_v += ', '.join([str(x) for x in row])
+                    if i != n:
+                        formatted_v += ', \n \t\t     | '
+                formatted_v += ' |]'
+                v = formatted_v
         text += f'{k} = {v};\n'
 
     return text
@@ -145,7 +152,8 @@ def main(config_file):
     instance = add_additional_info(instance)
     # print(instance)
 
-    #print(to_mzn(instance))
+    # print(to_mzn(instance))
+    
     if config['method'] == 'sat':
         # print(run_sat(instance, config['pb']))
 
