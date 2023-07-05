@@ -1,7 +1,0 @@
-{
-    "instance" : "./Instances/Original_Instances/inst05.dat",
-    "method" : "mip",
-    "solver": "cbc",
-    "pb" : true,
-    "timeout" : 300
-}
