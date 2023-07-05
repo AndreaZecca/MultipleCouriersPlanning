@@ -1,11 +1,13 @@
 import json
 import re
+from time import time
 
 import click
 import numpy as np
 
 from SAT.core import run_sat
 from MIP.core import run_mip
+from SMT.core import run_smt
 
 import utils
 
@@ -140,11 +142,31 @@ def distances_from_solution(instance, solution):
             courier_dist[i] += distance[solution[i][j]-1][solution[i][j+1]-1]
     return courier_dist
 
+def format_output(instance, result, elapsed):
+    if result is not None:
+        solution, optimal = result
+    else:
+        solution = None
+        optimal = False
+
+    if not optimal:
+        elapsed = 300
+
+    elapsed = int(np.floor(elapsed))
+
+    return {
+        'time' : elapsed,
+        'optimal' : optimal,
+        'obj' : 'n/a' if solution is None else int(np.max(distances_from_solution(instance, solution))),
+        'sol' : solution
+    }
 
 @click.command()
 @click.argument('config_file', type=click.File('r'))
 def main(config_file):
     config = json.load(config_file)
+
+    start_time = time()
 
     with open(config["instance"], "r") as instance:
         instance = parse_dat(instance.read())
@@ -160,15 +182,16 @@ def main(config_file):
         result = utils.run_with_timeout(run_sat, config['timeout'], instance, config['pb'])
         
     elif config['method'] == 'mip':
-        result = run_mip(instance, config['timeout'], config['solver'])
+        result = utils.run_with_timeout(run_mip, config['timeout'], instance, config['timeout'] - 1, config['solver'])
+        print('Result:', result)
+    elif config['method'] == 'smt':
+        result = run_smt(instance, config['timeout'])
     else:
         raise RuntimeError('Unknown method')
-    if result is not None:
-        solution, optimal = result
-        distances = distances_from_solution(instance, solution)
-        print(f"Optimal: {optimal}")
-        print(f"Distances: {distances}")
-        print(f"Solution: {solution}")
-        print(f"Max distance: {max(distances)}")
+
+    elapsed = time() - start_time
+    formatted_output = format_output(instance, result, elapsed)
+
+    print(formatted_output)
 if __name__ == '__main__':
     main()

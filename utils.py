@@ -37,6 +37,7 @@ def run_with_timeout(f, seconds_before_timeout, *args, **kwargs):
             completed = True
         finally:
             signal.signal(signal.SIGUSR1, old_handler)
+            time.sleep(1)
             result = None
             while not queue.empty():
                 result = queue.get()
@@ -44,5 +45,8 @@ def run_with_timeout(f, seconds_before_timeout, *args, **kwargs):
             if result is None:
                 return None
             else:
+                # The result might already contain whether it's optimal
+                if isinstance(result, tuple):
+                    return result[0], result[1] and completed
                 return result, completed
 
