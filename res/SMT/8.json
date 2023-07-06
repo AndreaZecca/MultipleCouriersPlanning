@@ -1,0 +1,1 @@
+{"symmetry_breaking": {"time": 2, "optimal": true, "obj": 186, "sol": [[5], [6], [8], [9, 7], [4], [3], [10], [2, 1]]}, "standard": {"time": 0, "optimal": true, "obj": 186, "sol": [[9], [8], [7], [4], [5], [3], [6, 10], [2, 1]]}}
