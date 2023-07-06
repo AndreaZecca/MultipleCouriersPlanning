@@ -188,16 +188,16 @@ def main(config_file, verbose):
         instance_number = int(re.findall(r"(\d+)", instance_number)[0])
         
         if verbose:
-            debug_info = f"- {instance_number} - {config['method']}"
+            debug_info = f"- Instance:{instance_number} - Method:{config['method']}"
             if config['method'].lower() == 'cp':
-                debug_info += f" - {config['solver']}"
-                debug_info += f" - {config['symmetry_breaking']}"
+                debug_info += f" - Solver:{config['solver']}"
+                debug_info += f" - SB:{config['symmetry_breaking']}"
             elif config['method'].lower() == 'mip':
-                debug_info += f" - {config['solver']}"
+                debug_info += f" - Solver:{config['solver']}"
             elif config['method'].lower() == 'sat':
-                debug_info += f" - {config['pseudo_boolean']}"
+                debug_info += f" - PB:{config['pseudo_boolean']}"
             elif config['method'].lower() == 'smt':
-                debug_info += f" - {config['symmetry_breaking']}"
+                debug_info += f" - SB:{config['symmetry_breaking']}"
             print(debug_info)
 
 
@@ -231,13 +231,13 @@ def main(config_file, verbose):
             if config['symmetry_breaking']:
                 output_field_name += '_sb'
         elif config['method'].lower() == 'sat':
-            result = utils.run_with_timeout(run_sat, config['timeout'], instance, config['pseudo_boolean'])
+            result = utils.run_with_timeout(run_sat, config['timeout'] + 1, instance, config['pseudo_boolean'])
             output_field_name = 'pb' if config['pseudo_boolean'] else 'standard'
         elif config['method'].lower() == 'smt':
-            result = run_smt(instance, config['timeout'], config['symmetry_breaking'])
+            result = utils.run_with_timeout(run_smt, config['timeout'] + 1, instance, config['timeout'], config['symmetry_breaking'])
             output_field_name = 'symmetry_breaking' if config['symmetry_breaking'] else 'standard'
         elif config['method'] == 'mip':
-            result = utils.run_with_timeout(run_mip, config['timeout'], instance, config['timeout'] - 1, config['solver'])
+            result = utils.run_with_timeout(run_mip, config['timeout'] + 1, instance, config['timeout'], config['solver'])
             output_field_name = config['solver']
         else:
             raise RuntimeError('Unknown method')
@@ -255,8 +255,7 @@ def main(config_file, verbose):
         with open(json_file_path, "r") as jsonFile:
             json_file_content = json.load(jsonFile)
         json_file_content[output_field_name] = formatted_output
-        #output_file = re.sub('\s*{\s*"(.)": (\d+),\s*"(.)": (\d+)\s*}(,?)\s*', r'{"\1":\2,"\3":\4}\5', output_file)
         with open(json_file_path, "w") as jsonFile:
-            json.dump(json_file_content, jsonFile)
+            json.dump(json_file_content, jsonFile, indent=4, separators=(',', ': '))
 if __name__ == '__main__':
     main()

@@ -1,5 +1,6 @@
-from z3 import *
+from time import time as time_clock
 
+from z3 import *
 
 def maxv(vs):
   m = vs[0]
@@ -41,7 +42,6 @@ def generate_smt_mode(instance, timeout, sb):
     min_solution = IntVal(f"{min_solution}")
 
     o = Optimize()
-    o.set("timeout", timeout*1000)
     ####################################### DECISION VARIABLES #######################################
 
     # main decision variable: x[i,k] = j mean that the i-th courier is in j at time k
@@ -138,8 +138,14 @@ def format_solution(instance, model, x):
                 step_courier[i].append(model.eval(x[i][k]).as_long() + 1) 
     return step_courier
 
-def run_smt(instance, timeout, sb):
+def run_smt(_, instance, timeout, sb):
+    generation_start_time = time_clock()
+
     o, x, max_distance = generate_smt_mode(instance, timeout, sb)
+
+    generation_duration = time_clock() - generation_start_time
+    o.set("timeout", (timeout - generation_duration) * 1000)
+
     obj = o.minimize(max_distance)
     res = o.check()
     if res in [sat, unknown]:

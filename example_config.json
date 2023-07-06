@@ -1,13 +1,8 @@
 [   {
-        "instance": "./Instances/inst09.dat",
-        "method": "mip",
+        "instance": "./Instances/inst01.dat",
+        "method": "cp",
         "timeout": 10,
-        "solver": "grb"
-    },
-    {
-        "instance": "./Instances/inst09.dat",
-        "method": "mip",
-        "timeout": 10,
-        "solver": "cbc"
+        "solver": "Gecode",
+        "symmetry_breaking": true
     }
 ]
