@@ -110,10 +110,6 @@ constraint
 %%%%%%%% SEARCH STRATEGY %%%%%%%%%% (Gecode on inst12)
 solve :: int_search(x, first_fail, indomain_min) minimize effective_max_dist; 
 
-% output x and y
 output [
     "\(x)"
-] ++
-[
-    "\(y)"
-]
+];

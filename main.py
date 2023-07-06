@@ -1,6 +1,7 @@
 import json
 import re
 from time import time
+import os
 
 import click
 import numpy as np
@@ -161,6 +162,22 @@ def format_output(instance, result, elapsed):
         'sol' : solution
     }
 
+def parse_cp_output(cp_output, instance):
+    m = instance["m"]
+    n = instance["n"]
+    x = cp_output.split('\n')[0]
+    x = x.split('[')[1].split(']')[0].split(', ')
+    x = np.array([int(y) for y in x])
+    x = x.reshape((m, n+1))
+    courier_step = []
+    for i in range(m):
+        first_step = x[i, -1]
+        courier_step.append([first_step])
+        while first_step != n+1:
+            first_step = x[i, first_step-1]
+            if first_step != n+1:
+                courier_step[i].append(first_step)
+    return courier_step
 @click.command()
 @click.argument('config_file', type=click.File('r'))
 def main(config_file):
@@ -172,26 +189,31 @@ def main(config_file):
         instance = parse_dat(instance.read())
     
     instance = add_additional_info(instance)
-    # print(instance)
-
-    # print(to_mzn(instance))
-    
-    if config['method'] == 'sat':
-        # print(run_sat(instance, config['pb']))
-
+    if config['method'].lower() == 'cp':
+        cp_instance = to_mzn(instance)
+        with open('./data.dzn', 'w') as f:
+            f.write(cp_instance)
+        cp_output = os.popen(f"minizinc ./CP/cp.mzn --solver {config['solver']} --solver-time-limit {config['timeout'] * 1_000} -d data.dzn").read()
+        time_spent = time() - start_time
+        if "UNSATISFIABLE" in cp_output or "=UNKNOWN=" in cp_output:
+            result = None
+        else:
+            cp_result = parse_cp_output(cp_output, instance)
+            isOptimal = time_spent <= config['timeout']
+            result = (cp_result, isOptimal)
+        os.remove('./data.dzn')
+    elif config['method'].lower() == 'sat':
         result = utils.run_with_timeout(run_sat, config['timeout'], instance, config['pb'])
-        
     elif config['method'] == 'mip':
         result = utils.run_with_timeout(run_mip, config['timeout'], instance, config['timeout'] - 1, config['solver'])
-        print('Result:', result)
-    elif config['method'] == 'smt':
+    elif config['method'].lower() == 'smt':
         result = run_smt(instance, config['timeout'])
     else:
         raise RuntimeError('Unknown method')
 
     elapsed = time() - start_time
     formatted_output = format_output(instance, result, elapsed)
-
+    
     print(formatted_output)
 if __name__ == '__main__':
     main()
