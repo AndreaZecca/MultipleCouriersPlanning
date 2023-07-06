@@ -22,7 +22,7 @@ def maxv(vs):
 def get_list_of_values(ll,j):
         return([If(x==j,1,0) for l in ll for x in l])
 
-def generate_smt_mode(instance, timeout):
+def generate_smt_mode(instance, timeout, sb):
     m = instance['m'] # couriers
     n = instance['n'] # packages
     l = instance['l'] # capacities
@@ -91,21 +91,21 @@ def generate_smt_mode(instance, timeout):
         o.add(And(load[i] >= min_load, load[i] <= max_load))
 
     ####################################### SYMMETRY BREAKING CONSTRAINTS #######################################
-
-    # once a courier i return to the depot, it cant deliver other packages
-    # for i in range(m):
-    #     for k in range(1,time):
-    #         o.add(Implies(x[i][k]==n, x[i][k+1]==n))
-    
-    # # lexycographic constraint between couriers with == capacity
-    # for i1 in range(m-1):
-    #     for i2 in range(i1+1,m):
-    #         o.add(Implies(l[i1]==l[i2], If(x[i1][1]!=n, x[i1][1], -1)<=If(x[i1][1]!=n, x[i1][1], -1)))
-    
-    # # constraint over maximum loads of the couriers
-    # for i1 in range(m-1):
-    #     for i2 in range(i1+1,m):
-    #         o.add(Implies(l[i1] <= l[i2], load[i1] <= load[i2]))
+    if sb:
+        # once a courier i return to the depot, it cant deliver other packages
+        for i in range(m):
+            for k in range(1,time):
+                o.add(Implies(x[i][k]==n, x[i][k+1]==n))
+        
+        # lexycographic constraint between couriers with == capacity
+        for i1 in range(m-1):
+            for i2 in range(i1+1,m):
+                o.add(Implies(l[i1]==l[i2], If(x[i1][1]!=n, x[i1][1], -1)<=If(x[i1][1]!=n, x[i1][1], -1)))
+        
+        # constraint over maximum loads of the couriers
+        for i1 in range(m-1):
+            for i2 in range(i1+1,m):
+                o.add(Implies(l[i1] <= l[i2], load[i1] <= load[i2]))
 
     ####################################### OBJECTIVE FUNCTION #######################################
     
@@ -138,8 +138,8 @@ def format_solution(instance, model, x):
                 step_courier[i].append(model.eval(x[i][k]).as_long() + 1) 
     return step_courier
 
-def run_smt(instance, timeout):
-    o, x, max_distance = generate_smt_mode(instance, timeout)
+def run_smt(instance, timeout, sb):
+    o, x, max_distance = generate_smt_mode(instance, timeout, sb)
     obj = o.minimize(max_distance)
     res = o.check()
     if res in [sat, unknown]:

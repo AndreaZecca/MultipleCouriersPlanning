@@ -1,0 +1,1348 @@
+[
+  {
+    "instance": "./Instances/inst01.dat",
+    "method": "cp",
+    "symmetry_breaking": true,
+    "solver": "Chuffed",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst01.dat",
+    "method": "cp",
+    "symmetry_breaking": false,
+    "solver": "Chuffed",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst02.dat",
+    "method": "cp",
+    "symmetry_breaking": true,
+    "solver": "Chuffed",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst02.dat",
+    "method": "cp",
+    "symmetry_breaking": false,
+    "solver": "Chuffed",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst03.dat",
+    "method": "cp",
+    "symmetry_breaking": true,
+    "solver": "Chuffed",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst03.dat",
+    "method": "cp",
+    "symmetry_breaking": false,
+    "solver": "Chuffed",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst04.dat",
+    "method": "cp",
+    "symmetry_breaking": true,
+    "solver": "Chuffed",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst04.dat",
+    "method": "cp",
+    "symmetry_breaking": false,
+    "solver": "Chuffed",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst05.dat",
+    "method": "cp",
+    "symmetry_breaking": true,
+    "solver": "Chuffed",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst05.dat",
+    "method": "cp",
+    "symmetry_breaking": false,
+    "solver": "Chuffed",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst06.dat",
+    "method": "cp",
+    "symmetry_breaking": true,
+    "solver": "Chuffed",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst06.dat",
+    "method": "cp",
+    "symmetry_breaking": false,
+    "solver": "Chuffed",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst07.dat",
+    "method": "cp",
+    "symmetry_breaking": true,
+    "solver": "Chuffed",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst07.dat",
+    "method": "cp",
+    "symmetry_breaking": false,
+    "solver": "Chuffed",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst08.dat",
+    "method": "cp",
+    "symmetry_breaking": true,
+    "solver": "Chuffed",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst08.dat",
+    "method": "cp",
+    "symmetry_breaking": false,
+    "solver": "Chuffed",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst09.dat",
+    "method": "cp",
+    "symmetry_breaking": true,
+    "solver": "Chuffed",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst09.dat",
+    "method": "cp",
+    "symmetry_breaking": false,
+    "solver": "Chuffed",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst10.dat",
+    "method": "cp",
+    "symmetry_breaking": true,
+    "solver": "Chuffed",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst10.dat",
+    "method": "cp",
+    "symmetry_breaking": false,
+    "solver": "Chuffed",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst11.dat",
+    "method": "cp",
+    "symmetry_breaking": true,
+    "solver": "Chuffed",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst11.dat",
+    "method": "cp",
+    "symmetry_breaking": false,
+    "solver": "Chuffed",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst12.dat",
+    "method": "cp",
+    "symmetry_breaking": true,
+    "solver": "Chuffed",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst12.dat",
+    "method": "cp",
+    "symmetry_breaking": false,
+    "solver": "Chuffed",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst13.dat",
+    "method": "cp",
+    "symmetry_breaking": true,
+    "solver": "Chuffed",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst13.dat",
+    "method": "cp",
+    "symmetry_breaking": false,
+    "solver": "Chuffed",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst14.dat",
+    "method": "cp",
+    "symmetry_breaking": true,
+    "solver": "Chuffed",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst14.dat",
+    "method": "cp",
+    "symmetry_breaking": false,
+    "solver": "Chuffed",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst15.dat",
+    "method": "cp",
+    "symmetry_breaking": true,
+    "solver": "Chuffed",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst15.dat",
+    "method": "cp",
+    "symmetry_breaking": false,
+    "solver": "Chuffed",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst16.dat",
+    "method": "cp",
+    "symmetry_breaking": true,
+    "solver": "Chuffed",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst16.dat",
+    "method": "cp",
+    "symmetry_breaking": false,
+    "solver": "Chuffed",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst17.dat",
+    "method": "cp",
+    "symmetry_breaking": true,
+    "solver": "Chuffed",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst17.dat",
+    "method": "cp",
+    "symmetry_breaking": false,
+    "solver": "Chuffed",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst18.dat",
+    "method": "cp",
+    "symmetry_breaking": true,
+    "solver": "Chuffed",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst18.dat",
+    "method": "cp",
+    "symmetry_breaking": false,
+    "solver": "Chuffed",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst19.dat",
+    "method": "cp",
+    "symmetry_breaking": true,
+    "solver": "Chuffed",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst19.dat",
+    "method": "cp",
+    "symmetry_breaking": false,
+    "solver": "Chuffed",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst20.dat",
+    "method": "cp",
+    "symmetry_breaking": true,
+    "solver": "Chuffed",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst20.dat",
+    "method": "cp",
+    "symmetry_breaking": false,
+    "solver": "Chuffed",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst21.dat",
+    "method": "cp",
+    "symmetry_breaking": true,
+    "solver": "Chuffed",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst21.dat",
+    "method": "cp",
+    "symmetry_breaking": false,
+    "solver": "Chuffed",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst01.dat",
+    "method": "cp",
+    "symmetry_breaking": true,
+    "solver": "Gecode",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst01.dat",
+    "method": "cp",
+    "symmetry_breaking": false,
+    "solver": "Gecode",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst02.dat",
+    "method": "cp",
+    "symmetry_breaking": true,
+    "solver": "Gecode",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst02.dat",
+    "method": "cp",
+    "symmetry_breaking": false,
+    "solver": "Gecode",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst03.dat",
+    "method": "cp",
+    "symmetry_breaking": true,
+    "solver": "Gecode",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst03.dat",
+    "method": "cp",
+    "symmetry_breaking": false,
+    "solver": "Gecode",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst04.dat",
+    "method": "cp",
+    "symmetry_breaking": true,
+    "solver": "Gecode",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst04.dat",
+    "method": "cp",
+    "symmetry_breaking": false,
+    "solver": "Gecode",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst05.dat",
+    "method": "cp",
+    "symmetry_breaking": true,
+    "solver": "Gecode",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst05.dat",
+    "method": "cp",
+    "symmetry_breaking": false,
+    "solver": "Gecode",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst06.dat",
+    "method": "cp",
+    "symmetry_breaking": true,
+    "solver": "Gecode",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst06.dat",
+    "method": "cp",
+    "symmetry_breaking": false,
+    "solver": "Gecode",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst07.dat",
+    "method": "cp",
+    "symmetry_breaking": true,
+    "solver": "Gecode",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst07.dat",
+    "method": "cp",
+    "symmetry_breaking": false,
+    "solver": "Gecode",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst08.dat",
+    "method": "cp",
+    "symmetry_breaking": true,
+    "solver": "Gecode",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst08.dat",
+    "method": "cp",
+    "symmetry_breaking": false,
+    "solver": "Gecode",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst09.dat",
+    "method": "cp",
+    "symmetry_breaking": true,
+    "solver": "Gecode",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst09.dat",
+    "method": "cp",
+    "symmetry_breaking": false,
+    "solver": "Gecode",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst10.dat",
+    "method": "cp",
+    "symmetry_breaking": true,
+    "solver": "Gecode",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst10.dat",
+    "method": "cp",
+    "symmetry_breaking": false,
+    "solver": "Gecode",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst11.dat",
+    "method": "cp",
+    "symmetry_breaking": true,
+    "solver": "Gecode",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst11.dat",
+    "method": "cp",
+    "symmetry_breaking": false,
+    "solver": "Gecode",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst12.dat",
+    "method": "cp",
+    "symmetry_breaking": true,
+    "solver": "Gecode",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst12.dat",
+    "method": "cp",
+    "symmetry_breaking": false,
+    "solver": "Gecode",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst13.dat",
+    "method": "cp",
+    "symmetry_breaking": true,
+    "solver": "Gecode",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst13.dat",
+    "method": "cp",
+    "symmetry_breaking": false,
+    "solver": "Gecode",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst14.dat",
+    "method": "cp",
+    "symmetry_breaking": true,
+    "solver": "Gecode",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst14.dat",
+    "method": "cp",
+    "symmetry_breaking": false,
+    "solver": "Gecode",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst15.dat",
+    "method": "cp",
+    "symmetry_breaking": true,
+    "solver": "Gecode",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst15.dat",
+    "method": "cp",
+    "symmetry_breaking": false,
+    "solver": "Gecode",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst16.dat",
+    "method": "cp",
+    "symmetry_breaking": true,
+    "solver": "Gecode",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst16.dat",
+    "method": "cp",
+    "symmetry_breaking": false,
+    "solver": "Gecode",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst17.dat",
+    "method": "cp",
+    "symmetry_breaking": true,
+    "solver": "Gecode",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst17.dat",
+    "method": "cp",
+    "symmetry_breaking": false,
+    "solver": "Gecode",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst18.dat",
+    "method": "cp",
+    "symmetry_breaking": true,
+    "solver": "Gecode",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst18.dat",
+    "method": "cp",
+    "symmetry_breaking": false,
+    "solver": "Gecode",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst19.dat",
+    "method": "cp",
+    "symmetry_breaking": true,
+    "solver": "Gecode",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst19.dat",
+    "method": "cp",
+    "symmetry_breaking": false,
+    "solver": "Gecode",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst20.dat",
+    "method": "cp",
+    "symmetry_breaking": true,
+    "solver": "Gecode",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst20.dat",
+    "method": "cp",
+    "symmetry_breaking": false,
+    "solver": "Gecode",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst21.dat",
+    "method": "cp",
+    "symmetry_breaking": true,
+    "solver": "Gecode",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst21.dat",
+    "method": "cp",
+    "symmetry_breaking": false,
+    "solver": "Gecode",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst01.dat",
+    "method": "sat",
+    "pseudo_boolean": true,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst01.dat",
+    "method": "sat",
+    "pseudo_boolean": false,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst02.dat",
+    "method": "sat",
+    "pseudo_boolean": true,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst02.dat",
+    "method": "sat",
+    "pseudo_boolean": false,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst03.dat",
+    "method": "sat",
+    "pseudo_boolean": true,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst03.dat",
+    "method": "sat",
+    "pseudo_boolean": false,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst04.dat",
+    "method": "sat",
+    "pseudo_boolean": true,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst04.dat",
+    "method": "sat",
+    "pseudo_boolean": false,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst05.dat",
+    "method": "sat",
+    "pseudo_boolean": true,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst05.dat",
+    "method": "sat",
+    "pseudo_boolean": false,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst06.dat",
+    "method": "sat",
+    "pseudo_boolean": true,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst06.dat",
+    "method": "sat",
+    "pseudo_boolean": false,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst07.dat",
+    "method": "sat",
+    "pseudo_boolean": true,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst07.dat",
+    "method": "sat",
+    "pseudo_boolean": false,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst08.dat",
+    "method": "sat",
+    "pseudo_boolean": true,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst08.dat",
+    "method": "sat",
+    "pseudo_boolean": false,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst09.dat",
+    "method": "sat",
+    "pseudo_boolean": true,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst09.dat",
+    "method": "sat",
+    "pseudo_boolean": false,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst10.dat",
+    "method": "sat",
+    "pseudo_boolean": true,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst10.dat",
+    "method": "sat",
+    "pseudo_boolean": false,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst11.dat",
+    "method": "sat",
+    "pseudo_boolean": true,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst11.dat",
+    "method": "sat",
+    "pseudo_boolean": false,
+
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst12.dat",
+    "method": "sat",
+    "pseudo_boolean": true,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst12.dat",
+    "method": "sat",
+    "pseudo_boolean": false,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst13.dat",
+    "method": "sat",
+    "pseudo_boolean": true,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst13.dat",
+    "method": "sat",
+    "pseudo_boolean": false,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst14.dat",
+    "method": "sat",
+    "pseudo_boolean": true,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst14.dat",
+    "method": "sat",
+    "pseudo_boolean": false,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst15.dat",
+    "method": "sat",
+    "pseudo_boolean": true,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst15.dat",
+    "method": "sat",
+    "pseudo_boolean": false,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst16.dat",
+    "method": "sat",
+    "pseudo_boolean": true,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst16.dat",
+    "method": "sat",
+    "pseudo_boolean": false,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst17.dat",
+    "method": "sat",
+    "pseudo_boolean": true,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst17.dat",
+    "method": "sat",
+    "pseudo_boolean": false,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst18.dat",
+    "method": "sat",
+    "pseudo_boolean": true,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst18.dat",
+    "method": "sat",
+    "pseudo_boolean": false,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst19.dat",
+    "method": "sat",
+    "pseudo_boolean": true,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst19.dat",
+    "method": "sat",
+    "pseudo_boolean": false,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst20.dat",
+    "method": "sat",
+    "pseudo_boolean": true,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst20.dat",
+    "method": "sat",
+    "pseudo_boolean": false,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst21.dat",
+    "method": "sat",
+    "pseudo_boolean": true,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst21.dat",
+    "method": "sat",
+    "pseudo_boolean": false,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst01.dat",
+    "method": "smt",
+    "symmetry_breaking": true,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst01.dat",
+    "method": "smt",
+    "symmetry_breaking": false,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst02.dat",
+    "method": "smt",
+    "symmetry_breaking": true,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst02.dat",
+    "method": "smt",
+    "symmetry_breaking": false,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst03.dat",
+    "method": "smt",
+    "symmetry_breaking": true,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst03.dat",
+    "method": "smt",
+    "symmetry_breaking": false,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst04.dat",
+    "method": "smt",
+    "symmetry_breaking": true,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst04.dat",
+    "method": "smt",
+    "symmetry_breaking": false,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst05.dat",
+    "method": "smt",
+    "symmetry_breaking": true,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst05.dat",
+    "method": "smt",
+    "symmetry_breaking": false,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst06.dat",
+    "method": "smt",
+    "symmetry_breaking": true,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst06.dat",
+    "method": "smt",
+    "symmetry_breaking": false,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst07.dat",
+    "method": "smt",
+    "symmetry_breaking": true,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst07.dat",
+    "method": "smt",
+    "symmetry_breaking": false,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst08.dat",
+    "method": "smt",
+    "symmetry_breaking": true,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst08.dat",
+    "method": "smt",
+    "symmetry_breaking": false,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst09.dat",
+    "method": "smt",
+    "symmetry_breaking": true,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst09.dat",
+    "method": "smt",
+    "symmetry_breaking": false,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst10.dat",
+    "method": "smt",
+    "symmetry_breaking": true,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst10.dat",
+    "method": "smt",
+    "symmetry_breaking": false,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst11.dat",
+    "method": "smt",
+    "symmetry_breaking": true,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst11.dat",
+    "method": "smt",
+    "symmetry_breaking": false,
+
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst12.dat",
+    "method": "smt",
+    "symmetry_breaking": true,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst12.dat",
+    "method": "smt",
+    "symmetry_breaking": false,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst13.dat",
+    "method": "smt",
+    "symmetry_breaking": true,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst13.dat",
+    "method": "smt",
+    "symmetry_breaking": false,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst14.dat",
+    "method": "smt",
+    "symmetry_breaking": true,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst14.dat",
+    "method": "smt",
+    "symmetry_breaking": false,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst15.dat",
+    "method": "smt",
+    "symmetry_breaking": true,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst15.dat",
+    "method": "smt",
+    "symmetry_breaking": false,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst16.dat",
+    "method": "smt",
+    "symmetry_breaking": true,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst16.dat",
+    "method": "smt",
+    "symmetry_breaking": false,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst17.dat",
+    "method": "smt",
+    "symmetry_breaking": true,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst17.dat",
+    "method": "smt",
+    "symmetry_breaking": false,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst18.dat",
+    "method": "smt",
+    "symmetry_breaking": true,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst18.dat",
+    "method": "smt",
+    "symmetry_breaking": false,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst19.dat",
+    "method": "smt",
+    "symmetry_breaking": true,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst19.dat",
+    "method": "smt",
+    "symmetry_breaking": false,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst20.dat",
+    "method": "smt",
+    "symmetry_breaking": true,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst20.dat",
+    "method": "smt",
+    "symmetry_breaking": false,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst21.dat",
+    "method": "smt",
+    "symmetry_breaking": true,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst21.dat",
+    "method": "smt",
+    "symmetry_breaking": false,
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst01.dat",
+    "method": "mip",
+    "solver": "cbc",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst01.dat",
+    "method": "mip",
+    "solver": "glpk",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst02.dat",
+    "method": "mip",
+    "solver": "cbc",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst02.dat",
+    "method": "mip",
+    "solver": "glpk",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst03.dat",
+    "method": "mip",
+    "solver": "cbc",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst03.dat",
+    "method": "mip",
+    "solver": "glpk",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst04.dat",
+    "method": "mip",
+    "solver": "cbc",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst04.dat",
+    "method": "mip",
+    "solver": "glpk",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst05.dat",
+    "method": "mip",
+    "solver": "cbc",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst05.dat",
+    "method": "mip",
+    "solver": "glpk",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst06.dat",
+    "method": "mip",
+    "solver": "cbc",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst06.dat",
+    "method": "mip",
+    "solver": "glpk",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst07.dat",
+    "method": "mip",
+    "solver": "cbc",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst07.dat",
+    "method": "mip",
+    "solver": "glpk",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst08.dat",
+    "method": "mip",
+    "solver": "cbc",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst08.dat",
+    "method": "mip",
+    "solver": "glpk",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst09.dat",
+    "method": "mip",
+    "solver": "cbc",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst09.dat",
+    "method": "mip",
+    "solver": "glpk",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst10.dat",
+    "method": "mip",
+    "solver": "cbc",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst10.dat",
+    "method": "mip",
+    "solver": "glpk",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst11.dat",
+    "method": "mip",
+    "solver": "cbc",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst11.dat",
+    "method": "mip",
+    "solver": "glpk",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst12.dat",
+    "method": "mip",
+    "solver": "cbc",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst12.dat",
+    "method": "mip",
+    "solver": "glpk",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst13.dat",
+    "method": "mip",
+    "solver": "cbc",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst13.dat",
+    "method": "mip",
+    "solver": "glpk",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst14.dat",
+    "method": "mip",
+    "solver": "cbc",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst14.dat",
+    "method": "mip",
+    "solver": "glpk",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst15.dat",
+    "method": "mip",
+    "solver": "cbc",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst15.dat",
+    "method": "mip",
+    "solver": "glpk",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst16.dat",
+    "method": "mip",
+    "solver": "cbc",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst16.dat",
+    "method": "mip",
+    "solver": "glpk",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst17.dat",
+    "method": "mip",
+    "solver": "cbc",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst17.dat",
+    "method": "mip",
+    "solver": "glpk",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst18.dat",
+    "method": "mip",
+    "solver": "cbc",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst18.dat",
+    "method": "mip",
+    "solver": "glpk",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst19.dat",
+    "method": "mip",
+    "solver": "cbc",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst19.dat",
+    "method": "mip",
+    "solver": "glpk",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst20.dat",
+    "method": "mip",
+    "solver": "cbc",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst20.dat",
+    "method": "mip",
+    "solver": "glpk",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst21.dat",
+    "method": "mip",
+    "solver": "cbc",
+    "timeout": 10
+  },
+  {
+    "instance": "./Instances/inst21.dat",
+    "method": "mip",
+    "solver": "glpk",
+    "timeout": 10
+  }
+]

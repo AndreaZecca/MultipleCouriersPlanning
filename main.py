@@ -115,11 +115,6 @@ def to_mzn(instance):
             if len(v.shape) == 1:        
                 v = '[' + ', '.join([str(x) for x in v]) + ']'
             elif len(v.shape) == 2:
-                # formatted_v = ''
-                #for i,row in v:
-                #    formatted_v += '[' + ', '.join([str(x) for x in row]) + '],\n'
-
-                # v = '[|' + ((' ' * len(k) + ',\n')).join([', '.join([str(y) for y in x]) for x in v]) + '|]'
                 formatted_v = '[|'
                 for i,row in enumerate(v):
                     formatted_v += ', '.join([str(x) for x in row])
@@ -156,10 +151,10 @@ def format_output(instance, result, elapsed):
     elapsed = int(np.floor(elapsed))
 
     return {
-        'time' : elapsed,
-        'optimal' : optimal,
-        'obj' : 'n/a' if solution is None else int(np.max(distances_from_solution(instance, solution))),
-        'sol' : solution
+        "time" : elapsed,
+        "optimal" : optimal,
+        "obj" : "n/a" if solution is None else int(np.max(distances_from_solution(instance, solution))),
+        "sol" : [[int(x) for x in solu] for solu in solution] if solution is not None else None
     }
 
 def parse_cp_output(cp_output, instance):
@@ -172,28 +167,37 @@ def parse_cp_output(cp_output, instance):
     courier_step = []
     for i in range(m):
         first_step = x[i, -1]
-        courier_step.append([first_step])
-        while first_step != n+1:
-            first_step = x[i, first_step-1]
-            if first_step != n+1:
-                courier_step[i].append(first_step)
+        if first_step == n+1:
+            courier_step.append([])
+        else:                
+            courier_step.append([first_step])
+            while first_step != n+1:
+                first_step = x[i, first_step-1]
+                if first_step != n+1:
+                    courier_step[i].append(first_step)
     return courier_step
 @click.command()
 @click.argument('config_file', type=click.File('r'))
 def main(config_file):
     config = json.load(config_file)
-
     start_time = time()
 
-    with open(config["instance"], "r") as instance:
-        instance = parse_dat(instance.read())
-    
+    try:
+        with open(config["instance"], "r") as instance:
+            instance = parse_dat(instance.read())
+    except FileNotFoundError:
+        print("Instance file not found")
+        return
     instance = add_additional_info(instance)
+
+    output_field_name = ''
+    
     if config['method'].lower() == 'cp':
         cp_instance = to_mzn(instance)
         with open('./data.dzn', 'w') as f:
             f.write(cp_instance)
-        cp_output = os.popen(f"minizinc ./CP/cp.mzn --solver {config['solver']} --solver-time-limit {config['timeout'] * 1_000} -d data.dzn").read()
+        cp_to_call = "cp_sb.mzn" if config['symmetry_breaking'] else "cp.mzn" 
+        cp_output = os.popen(f"minizinc ./CP/{cp_to_call} --solver {config['solver']} --solver-time-limit {config['timeout'] * 1_000} -d data.dzn").read()
         time_spent = time() - start_time
         if "UNSATISFIABLE" in cp_output or "=UNKNOWN=" in cp_output:
             result = None
@@ -202,18 +206,40 @@ def main(config_file):
             isOptimal = time_spent <= config['timeout']
             result = (cp_result, isOptimal)
         os.remove('./data.dzn')
+
+        output_field_name = config['solver']
+        if config['symmetry_breaking']:
+            output_field_name += '_sb'
     elif config['method'].lower() == 'sat':
-        result = utils.run_with_timeout(run_sat, config['timeout'], instance, config['pb'])
+        result = utils.run_with_timeout(run_sat, config['timeout'], instance, config['pseudo_boolean'])
+        output_field_name = 'pb' if config['pseudo_boolean'] else 'standard'
+    elif config['method'].lower() == 'smt':
+        result = run_smt(instance, config['timeout'], config['symmetry_breaking'])
+        output_field_name = 'symmetry_breaking' if config['symmetry_breaking'] else 'standard'
     elif config['method'] == 'mip':
         result = utils.run_with_timeout(run_mip, config['timeout'], instance, config['timeout'] - 1, config['solver'])
-    elif config['method'].lower() == 'smt':
-        result = run_smt(instance, config['timeout'])
+        output_field_name = config['solver']
     else:
         raise RuntimeError('Unknown method')
 
     elapsed = time() - start_time
     formatted_output = format_output(instance, result, elapsed)
-    
-    print(formatted_output)
+    print(formatted_output)    
+    instance_number = config["instance"].split('/')[-1]
+    instance_number = int(re.findall(r"(\d+)", instance_number)[0])
+
+    json_file_path = f'./res/{config["method"].upper()}/{instance_number}.json'
+    if not os.path.exists(json_file_path):
+        with open(json_file_path, 'w') as f:
+            f.write('{}')
+            f.close()
+
+    with open(json_file_path, "r") as jsonFile:
+        json_file_content = json.load(jsonFile)
+    json_file_content[output_field_name] = formatted_output
+    #output_file = re.sub('\s*{\s*"(.)": (\d+),\s*"(.)": (\d+)\s*}(,?)\s*', r'{"\1":\2,"\3":\4}\5', output_file)
+    with open(json_file_path, "w") as jsonFile:
+        json.dump(json_file_content, jsonFile)
+        
 if __name__ == '__main__':
     main()

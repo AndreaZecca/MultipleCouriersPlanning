@@ -1,6 +1,0 @@
-{
-    "instance" : "./Instances/inst05.dat",
-    "method" : "sat",
-    "pb" : true,
-    "timeout" : 300
-}

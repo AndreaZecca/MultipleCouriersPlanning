@@ -91,35 +91,35 @@ def mcp_standard(instance):
 
     # Symmetry breaking constraints
     # 6. once a courier arrive to depot (j = n+1), it can't depart from there
-    for i in range (m):
-        for k in range(1, time-1):
-            solver.add(
-                Implies(v[i][n][k], v[i][n][k+1])
-            )
+    # for i in range (m):
+    #     for k in range(1, time-1):
+    #         solver.add(
+    #             Implies(v[i][n][k], v[i][n][k+1])
+    #         )
     
-    # symmetry breaking for courriers with equal capacity
-    # 7. if the courrier i have lower capacity than currier i1, then what can be delivered by i cant be delivered by i1
-    #if equal_load_matrix[i][i1] is true, then v[i][:][k] should be lexicographically less than v[i1][:][k]
-    assignments_array = [[Bool(f"aa_{i}_{j}") for j in range(n)] for i in range (m)]
+    # # symmetry breaking for courriers with equal capacity
+    # # 7. if the courrier i have lower capacity than currier i1, then what can be delivered by i cant be delivered by i1
+    # #if equal_load_matrix[i][i1] is true, then v[i][:][k] should be lexicographically less than v[i1][:][k]
+    # assignments_array = [[Bool(f"aa_{i}_{j}") for j in range(n)] for i in range (m)]
 
-    # aa true if the package j is assigned to i at any k
-    for i in range(m):
-        for j in range(n):
-            solver.add(
-                assignments_array[i][j] == Or([v[i][j][k] for k in range(1,time)]) 
-            )
+    # # aa true if the package j is assigned to i at any k
+    # for i in range(m):
+    #     for j in range(n):
+    #         solver.add(
+    #             assignments_array[i][j] == Or([v[i][j][k] for k in range(1,time)]) 
+    #         )
 
-    for i in range(m):
-        for i1 in range(i+1,m):
-            for j in range(1,min_index([assignments_array[i][jj] for jj in range(n)])+1):
-                solver.add(
-                    Implies(
-                        equal_load_matrix[i][i1],
-                        Implies( Or(And(assignments_array[i][j-1], assignments_array[i1][j-1]), And(Not(assignments_array[i][j-1]),Not(assignments_array[i1][j-1]))) ,
-                            Or(And(assignments_array[i][j], assignments_array[i1][j]), And(Not(assignments_array[i][j]),Not(assignments_array[i1][j])), assignments_array[i][j])
-                        )
-                    )
-                )
+    # for i in range(m):
+    #     for i1 in range(i+1,m):
+    #         for j in range(1,min_index([assignments_array[i][jj] for jj in range(n)])+1):
+    #             solver.add(
+    #                 Implies(
+    #                     equal_load_matrix[i][i1],
+    #                     Implies( Or(And(assignments_array[i][j-1], assignments_array[i1][j-1]), And(Not(assignments_array[i][j-1]),Not(assignments_array[i1][j-1]))) ,
+    #                         Or(And(assignments_array[i][j], assignments_array[i1][j]), And(Not(assignments_array[i][j]),Not(assignments_array[i1][j])), assignments_array[i][j])
+    #                     )
+    #                 )
+    #             )
 
     return solver, v, d
 

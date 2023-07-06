@@ -1,6 +1,0 @@
-{
-    "instance": "./Instances/inst20.dat",
-    "method" : "cp",
-    "solver": "Gecode",
-    "timeout": 3
-}

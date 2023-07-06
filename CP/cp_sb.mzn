@@ -96,6 +96,17 @@ constraint
 constraint
     effective_max_dist = max(y);
 
+%%%%%%%%% SYMMETRY BREAKING %%%%%%%%%%
+constraint
+    forall(i in 1..m-1, z in i+1..m where l[i] >= l[z])(
+        load[i] >= load[z]
+    );
+
+constraint
+    forall(i in 1..m-1, z in i+1..m where l[i] == l[z])(
+        lex_less([x[i,k] | k in 1..n+1] , [x[z,k1] | k1 in 1..n+1])
+    );
+
 %%%%%%%% SEARCH STRATEGY %%%%%%%%%% (Gecode on inst12)
 solve :: int_search(x, first_fail, indomain_min) minimize effective_max_dist; 
 

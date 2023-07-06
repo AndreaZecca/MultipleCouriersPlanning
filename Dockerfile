@@ -16,6 +16,6 @@ RUN apt-get update \
 # What to run when the container starts
 # Use this command to keep the container up and use the terminal inside of it
 
-CMD python3 main.py example_conf.json
+CMD python3 main.py config.json
 
 # minizinc --solver Gecode nqueens.mzn --json-stream --output-time > results/minizinc/20.json \ && python3 nqueens.py

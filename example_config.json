@@ -1,0 +1,7 @@
+{
+    "instance": "./Instances/inst09.dat",
+    "method": "mip",
+    "timeout": 10,
+
+    "solver": "grb"
+}
