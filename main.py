@@ -179,67 +179,67 @@ def parse_cp_output(cp_output, instance):
 @click.command()
 @click.argument('config_file', type=click.File('r'))
 def main(config_file):
-    config = json.load(config_file)
-    start_time = time()
+    configurations = json.load(config_file)
+    for config in configurations:
+        start_time = time()
 
-    try:
-        with open(config["instance"], "r") as instance:
-            instance = parse_dat(instance.read())
-    except FileNotFoundError:
-        print("Instance file not found")
-        return
-    instance = add_additional_info(instance)
+        try:
+            with open(config["instance"], "r") as instance:
+                instance = parse_dat(instance.read())
+        except FileNotFoundError:
+            print("Instance file not found")
+            return
+        instance = add_additional_info(instance)
 
-    output_field_name = ''
-    
-    if config['method'].lower() == 'cp':
-        cp_instance = to_mzn(instance)
-        with open('./data.dzn', 'w') as f:
-            f.write(cp_instance)
-        cp_to_call = "cp_sb.mzn" if config['symmetry_breaking'] else "cp.mzn" 
-        cp_output = os.popen(f"minizinc ./CP/{cp_to_call} --solver {config['solver']} --solver-time-limit {config['timeout'] * 1_000} -d data.dzn").read()
-        time_spent = time() - start_time
-        if "UNSATISFIABLE" in cp_output or "=UNKNOWN=" in cp_output:
-            result = None
-        else:
-            cp_result = parse_cp_output(cp_output, instance)
-            isOptimal = time_spent <= config['timeout']
-            result = (cp_result, isOptimal)
-        os.remove('./data.dzn')
-
-        output_field_name = config['solver']
-        if config['symmetry_breaking']:
-            output_field_name += '_sb'
-    elif config['method'].lower() == 'sat':
-        result = utils.run_with_timeout(run_sat, config['timeout'], instance, config['pseudo_boolean'])
-        output_field_name = 'pb' if config['pseudo_boolean'] else 'standard'
-    elif config['method'].lower() == 'smt':
-        result = run_smt(instance, config['timeout'], config['symmetry_breaking'])
-        output_field_name = 'symmetry_breaking' if config['symmetry_breaking'] else 'standard'
-    elif config['method'] == 'mip':
-        result = utils.run_with_timeout(run_mip, config['timeout'], instance, config['timeout'] - 1, config['solver'])
-        output_field_name = config['solver']
-    else:
-        raise RuntimeError('Unknown method')
-
-    elapsed = time() - start_time
-    formatted_output = format_output(instance, result, elapsed)
-    print(formatted_output)    
-    instance_number = config["instance"].split('/')[-1]
-    instance_number = int(re.findall(r"(\d+)", instance_number)[0])
-
-    json_file_path = f'./res/{config["method"].upper()}/{instance_number}.json'
-    if not os.path.exists(json_file_path):
-        with open(json_file_path, 'w') as f:
-            f.write('{}')
-            f.close()
-
-    with open(json_file_path, "r") as jsonFile:
-        json_file_content = json.load(jsonFile)
-    json_file_content[output_field_name] = formatted_output
-    #output_file = re.sub('\s*{\s*"(.)": (\d+),\s*"(.)": (\d+)\s*}(,?)\s*', r'{"\1":\2,"\3":\4}\5', output_file)
-    with open(json_file_path, "w") as jsonFile:
-        json.dump(json_file_content, jsonFile)
+        output_field_name = ''
         
+        if config['method'].lower() == 'cp':
+            cp_instance = to_mzn(instance)
+            with open('./data.dzn', 'w') as f:
+                f.write(cp_instance)
+            cp_to_call = "cp_sb.mzn" if config['symmetry_breaking'] else "cp.mzn" 
+            cp_output = os.popen(f"minizinc ./CP/{cp_to_call} --solver {config['solver']} --solver-time-limit {config['timeout'] * 1_000} -d data.dzn").read()
+            time_spent = time() - start_time
+            if "UNSATISFIABLE" in cp_output or "=UNKNOWN=" in cp_output:
+                result = None
+            else:
+                cp_result = parse_cp_output(cp_output, instance)
+                isOptimal = time_spent <= config['timeout']
+                result = (cp_result, isOptimal)
+            os.remove('./data.dzn')
+
+            output_field_name = config['solver']
+            if config['symmetry_breaking']:
+                output_field_name += '_sb'
+        elif config['method'].lower() == 'sat':
+            result = utils.run_with_timeout(run_sat, config['timeout'], instance, config['pseudo_boolean'])
+            output_field_name = 'pb' if config['pseudo_boolean'] else 'standard'
+        elif config['method'].lower() == 'smt':
+            result = run_smt(instance, config['timeout'], config['symmetry_breaking'])
+            output_field_name = 'symmetry_breaking' if config['symmetry_breaking'] else 'standard'
+        elif config['method'] == 'mip':
+            result = utils.run_with_timeout(run_mip, config['timeout'], instance, config['timeout'] - 1, config['solver'])
+            output_field_name = config['solver']
+        else:
+            raise RuntimeError('Unknown method')
+
+        elapsed = time() - start_time
+        formatted_output = format_output(instance, result, elapsed)
+        # print(formatted_output)    
+        instance_number = config["instance"].split('/')[-1]
+        instance_number = int(re.findall(r"(\d+)", instance_number)[0])
+
+        json_file_path = f'./res/{config["method"].upper()}/{instance_number}.json'
+        if not os.path.exists(json_file_path):
+            with open(json_file_path, 'w') as f:
+                f.write('{}')
+                f.close()
+
+        with open(json_file_path, "r") as jsonFile:
+            json_file_content = json.load(jsonFile)
+        json_file_content[output_field_name] = formatted_output
+        #output_file = re.sub('\s*{\s*"(.)": (\d+),\s*"(.)": (\d+)\s*}(,?)\s*', r'{"\1":\2,"\3":\4}\5', output_file)
+        with open(json_file_path, "w") as jsonFile:
+            json.dump(json_file_content, jsonFile)
 if __name__ == '__main__':
     main()
