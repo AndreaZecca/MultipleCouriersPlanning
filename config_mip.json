@@ -1,0 +1,6 @@
+{
+    "instance" : "./Instances/inst01.dat",
+    "method" : "mip",
+    "solver": "cbc",
+    "timeout" : 300
+}

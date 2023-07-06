@@ -1,6 +1,8 @@
 from mip import *
 import numpy as np
 
+from time import time as time_clock
+
 def generate_mip_model(instance, solver_name):
     n = instance["n"]
     m = instance["m"]
@@ -41,39 +43,46 @@ def generate_mip_model(instance, solver_name):
     # x[i, j1, j2] = 1 means that the courier i travels from node j1 to node j2, so 
     # z[i, j2] = z[i, j1] + 1 since the time at which courier i arrives to node j2 is 
     # one unit larger than the time at which it arrives to node j1
-    for i in range(m):
-        for j1 in range(n + 1):
-            for j2 in range(n): # Note that j2 cannot be n + 1 (i.e. the deposit)
-                # if x[i, j1, j2] = 1, then z[i, j2] = z[i, j1] + 1
-                model += z[i, j2] - z[i, j1] <= M * (1 - x[i, j1, j2]) + 1
-                model += z[i, j1] - z[i, j2] <= M * (1 - x[i, j1, j2]) - 1
+
+
+    # (x[i, j1, j2] = 1) => (z[i, j2] = z[i, j1] + 1)
+    
+
+    for j1 in range(n + 1):
+        for j2 in range(n): # Note that j2 cannot be n + 1 (i.e. the deposit)
+            # if x[i, j1, j2] = 1, then z[i, j2] = z[i, j1] + 1
+            model += z[:, j2] - z[:, j1] <= M * (1 - x[:, j1, j2]) + 1
+            model += z[:, j1] - z[:, j2] <= M * (1 - x[:, j1, j2]) - 1
 
     # Each courier moves at least one time (even if it does not carry any package he has to go back to the deposit)
     for i in range(m):
-        model += np.sum(x[i, n, :]) == 1
-        model += np.sum(x[i, :, n]) == 1
-
+        model += xsum(x[i, n, :]) == 1
+        model += xsum(x[i, :, n]) == 1
     # If we know that each courier has to carry at least one package, then we can add the following constraints
     if at_least_one == 1:
         for i in range(m):
-            model += np.sum(x[i, n, :n]) == 1
+            model += xsum(x[i, n, :n]) == 1
 
     # t[i, j] is 1 if the courier i carries the package j
     for i in range(m):
         for j in range(n):
-            model += np.sum(x[i, j, :]) == t[i, j]
+            model += xsum(x[i, j, :]) == t[i, j]
 
     # All packages are carried by exactly one courier
     for j in range(n):
-        model += np.sum(t[:, j]) == 1
+        model += xsum(t[:, j]) == 1
 
     # If a courier arrives to a package, it has to leave from that package
     for i in range(m):
         for j in range(n):
-            courier_arrives = np.sum(x[i, :, j])
-            courier_leaves = np.sum(x[i, j, :])
+            courier_arrives = xsum(x[i, :, j])
+            courier_leaves = xsum(x[i, j, :])
             # (not arrives) or leaves
             model += (1 - courier_arrives) + courier_leaves >= 1
+
+
+    # x[i, j, k] = i visita j al tempo k
+    # x[i, j1] = j2
 
 
     # Each courier does not exceed its capacity
@@ -81,20 +90,16 @@ def generate_mip_model(instance, solver_name):
         model += (t[i, :] @ s) <= max_load
         model += (t[i, :] @ s) <= l[i]
         model += (t[i, :] @ s) >= min_load
-
     # y[i] is the distance traveled by the courier i
     for i in range(m):
-        model +=  np.sum(x[i, :, :] * np.array(instance["distances"])) == y[i]
-
+        model +=  xsum((x[i, :, :] * np.array(instance["distances"])).flatten()) == y[i]
     # You cannot travel from a node to itself
     for i in range(m):
         for j in range(n):
             model += x[i, j, j] == 0
-
     # The maximum distance traveled by a courier is v
     for i in range(m):
         model += v >= y[i]
-
     # setting the number of threads to -1 uses all the available threads
     model.threads = -1
     model.verbose = 0
@@ -119,10 +124,13 @@ def format_solution(instance, x):
             current_node = find_next(x, i, current_node, n)
     return solution
 
-def run_mip(instance, timeout, solver):
-    model, x = generate_mip_model(instance, solver)  
-    model.optimize(max_seconds=timeout)
-    print("Status:", model.status)
+def run_mip(_, instance, timeout, solver):
+    generation_start_time = time_clock()
+    model, x = generate_mip_model(instance, solver)
+
+    generation_time = time_clock() - generation_start_time
+
+    model.optimize(max_seconds=timeout - generation_time)
     if model.status in [OptimizationStatus.OPTIMAL, OptimizationStatus.FEASIBLE]:
         solution = format_solution(instance, x)
         isOptimal = model.status == OptimizationStatus.OPTIMAL

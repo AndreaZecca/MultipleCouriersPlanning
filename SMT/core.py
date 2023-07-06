@@ -1,5 +1,18 @@
 from z3 import *
 
+
+def maxv(vs):
+  m = vs[0]
+  for x in vs[1:]:
+    m = If(x > m, x, m)
+  return m
+
+
+def get_list_of_values(ll,j):
+    return([If(x==j,1,0) for l in ll for x in l])
+
+
+
 def maxv(vs):
   m = vs[0]
   for x in vs[1:]:
@@ -9,7 +22,7 @@ def maxv(vs):
 def get_list_of_values(ll,j):
         return([If(x==j,1,0) for l in ll for x in l])
 
-def mcp(instance, timeout):
+def generate_smt_mode(instance, timeout):
     m = instance['m'] # couriers
     n = instance['n'] # packages
     l = instance['l'] # capacities
@@ -20,9 +33,15 @@ def mcp(instance, timeout):
     max_load = instance['max_load'] # max load for a single courier
     min_solution = instance['min_solution'] # minimum max distance
     
+    # casting integers to z3 integers
+    max_load = IntVal(f"{max_load}")
+    min_load = IntVal(f"{min_load}")
+    min_dist = IntVal(f"{min_dist}")
+    max_dist = IntVal(f"{max_dist}")
+    min_solution = IntVal(f"{min_solution}")
+
     o = Optimize()
     o.set("timeout", timeout*1000)
-
     ####################################### DECISION VARIABLES #######################################
 
     # main decision variable: x[i,k] = j mean that the i-th courier is in j at time k
@@ -36,6 +55,8 @@ def mcp(instance, timeout):
 
     # distance to minimize
     max_distance = Int(f'max_distance')
+    
+
 
     # we define distances as a z3 array because it is easier to indicize
     distances = Array('distances', IntSort(), ArraySort(IntSort(), IntSort()))
@@ -49,7 +70,7 @@ def mcp(instance, timeout):
         o.add(s[j] == instance['s'][j]  )
     o.add(s[n] == 0)
 
-
+    
     ####################################### CONSTRAINTS #######################################
 
     # define possible value for x[i][k]
@@ -72,19 +93,19 @@ def mcp(instance, timeout):
     ####################################### SYMMETRY BREAKING CONSTRAINTS #######################################
 
     # once a courier i return to the depot, it cant deliver other packages
-    for i in range(m):
-        for k in range(1,time):
-            o.add(Implies(x[i][k]==n, x[i][k+1]==n))
+    # for i in range(m):
+    #     for k in range(1,time):
+    #         o.add(Implies(x[i][k]==n, x[i][k+1]==n))
     
-    # lexycographic constraint between couriers with == capacity
-    for i1 in range(m-1):
-        for i2 in range(i1+1,m):
-            o.add(Implies(l[i1]==l[i2], If(x[i1][1]!=n, x[i1][1], -1)<=If(x[i1][1]!=n, x[i1][1], -1)))
+    # # lexycographic constraint between couriers with == capacity
+    # for i1 in range(m-1):
+    #     for i2 in range(i1+1,m):
+    #         o.add(Implies(l[i1]==l[i2], If(x[i1][1]!=n, x[i1][1], -1)<=If(x[i1][1]!=n, x[i1][1], -1)))
     
-    # constraint over maximum loads of the couriers
-    for i1 in range(m-1):
-        for i2 in range(i1+1,m):
-            o.add(Implies(l[i1] <= l[i2], load[i1] <= load[i2]))
+    # # constraint over maximum loads of the couriers
+    # for i1 in range(m-1):
+    #     for i2 in range(i1+1,m):
+    #         o.add(Implies(l[i1] <= l[i2], load[i1] <= load[i2]))
 
     ####################################### OBJECTIVE FUNCTION #######################################
     
@@ -102,21 +123,30 @@ def mcp(instance, timeout):
     # bound the variable to minimize
     o.add(max_distance >= min_solution)
 
-    #minimization
-    obj = o.minimize(max_distance)
+    return o, x, max_distance
 
+def format_solution(instance, model, x):
+    m = instance['m'] # couriers
+    n = instance['n'] # packages
+    # print(model)
+    time = instance['time'] # max number of packages a courier can carry
+    step_courier = []
+    for i in range(m):
+        step_courier.append([])
+        for k in range(1,time+1):
+            if model.eval(x[i][k]).as_long() != n:
+                step_courier[i].append(model.eval(x[i][k]).as_long() + 1) 
+    return step_courier
+
+def run_smt(instance, timeout):
+    o, x, max_distance = generate_smt_mode(instance, timeout)
+    obj = o.minimize(max_distance)
     res = o.check()
-    #print(o.model)
-    if res == sat:
-        model = o.model()
-        for i in range(m):
-            print()
-            print(f"Courier {i+1}:")
-            print(f"Distance: {model.eval(y[i])}")
-        
+    if res in [sat, unknown]:
+        try:
+            result_formatted = format_solution(instance, o.model(), x)
+            return result_formatted, res==sat
+        except:
+            return None
     else:
-        if res == unsat:
-            print("Unsat")
-        else:
-            print("Timeout reached")
-            print("Upper bound found by the model till now: ",o.upper(obj))
+        return None

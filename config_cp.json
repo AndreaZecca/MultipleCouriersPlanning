@@ -1,0 +1,5 @@
+{
+    "instance": "./Instances/inst04.dat",
+    "solver": "Gecode",
+    "timeout": 300
+}
