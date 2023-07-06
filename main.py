@@ -176,13 +176,32 @@ def parse_cp_output(cp_output, instance):
                 if first_step != n+1:
                     courier_step[i].append(first_step)
     return courier_step
+
 @click.command()
 @click.argument('config_file', type=click.File('r'))
-def main(config_file):
+@click.argument('verbose', type=bool, default=False)
+def main(config_file, verbose):
     configurations = json.load(config_file)
     for config in configurations:
-        start_time = time()
 
+        instance_number = config["instance"].split('/')[-1]
+        instance_number = int(re.findall(r"(\d+)", instance_number)[0])
+        
+        if verbose:
+            debug_info = f"- {instance_number} - {config['method']}"
+            if config['method'].lower() == 'cp':
+                debug_info += f" - {config['solver']}"
+                debug_info += f" - {config['symmetry_breaking']}"
+            elif config['method'].lower() == 'mip':
+                debug_info += f" - {config['solver']}"
+            elif config['method'].lower() == 'sat':
+                debug_info += f" - {config['pseudo_boolean']}"
+            elif config['method'].lower() == 'smt':
+                debug_info += f" - {config['symmetry_breaking']}"
+            print(debug_info)
+
+
+        start_time = time()
         try:
             with open(config["instance"], "r") as instance:
                 instance = parse_dat(instance.read())
@@ -226,8 +245,6 @@ def main(config_file):
         elapsed = time() - start_time
         formatted_output = format_output(instance, result, elapsed)
         # print(formatted_output)    
-        instance_number = config["instance"].split('/')[-1]
-        instance_number = int(re.findall(r"(\d+)", instance_number)[0])
 
         json_file_path = f'./res/{config["method"].upper()}/{instance_number}.json'
         if not os.path.exists(json_file_path):
