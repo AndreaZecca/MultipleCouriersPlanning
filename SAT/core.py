@@ -79,10 +79,10 @@ def run_sat(add_intermediate_solution, instance, use_pb=True):
 
         # if the problem is unsat
         if res == unsat:
-            # if we reached an ending point in the binary search
-            if lower_bound >= original_upper_bound:
+            # if we never found a solution then upper bound is the same as the original upper bound hence the problem is unsat
+            if upper_bound == original_upper_bound:
                 # if the upper bound is equal to the original upper bound, the problem is unsat since we never found a solution
-                return None
+                return "unsat"
             
             # updating lower
             lower_bound = pivot + 1

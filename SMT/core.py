@@ -153,5 +153,7 @@ def run_smt(_, instance, timeout, sb, instance_number):
             return result_formatted, res==sat
         except:
             return None
+    elif res == unsat:
+        return "unsat"
     else:
         return None

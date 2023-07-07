@@ -135,6 +135,7 @@ def run_mip(_, instance, timeout, solver):
         solution = format_solution(instance, x)
         isOptimal = model.status == OptimizationStatus.OPTIMAL
         return solution, isOptimal
+    elif model.status in [OptimizationStatus.INFEASIBLE, OptimizationStatus.INT_INFEASIBLE, OptimizationStatus.ERROR]:
+        return "unsat"
     else:
         return None
-

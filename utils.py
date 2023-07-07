@@ -44,6 +44,8 @@ def run_with_timeout(f, seconds_before_timeout, *args, **kwargs):
 
             if result is None:
                 return None
+            if result == "unsat":
+                return "unsat"
             else:
                 # The result might already contain whether it's optimal
                 if isinstance(result, tuple):
