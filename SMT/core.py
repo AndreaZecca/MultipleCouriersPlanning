@@ -151,6 +151,7 @@ def run_smt(_, instance, timeout, sb, instance_number):
         f.write("(set-logic ALL)\n")
         # removing last row from smt2
         smt2 = smt2.split("\n")
+        smt2 = smt2[:-1]
         smt2 = "\n".join(smt2[:-1])
         f.write(smt2)
 

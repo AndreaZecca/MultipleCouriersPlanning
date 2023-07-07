@@ -1,8 +1,8 @@
 [   {
-        "instance": "./Instances/inst01.dat",
+        "instance": "./Instances/inst14.dat",
         "method": "cp",
-        "timeout": 10,
-        "solver": "Gecode",
-        "symmetry_breaking": false
+        "timeout": 300,
+        "solver": "Chuffed",
+        "symmetry_breaking": true
     }
 ]

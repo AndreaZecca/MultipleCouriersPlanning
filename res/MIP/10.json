@@ -1,1 +1,0 @@
-{"cbc": {"time": 300, "optimal": false, "obj": "n/a", "sol": null}, "glpk": {"time": 1, "optimal": true, "obj": 244, "sol": [[11], [12], [3], [1], [10, 8], [4], [5], [7], [13], [6, 9, 2]]}}

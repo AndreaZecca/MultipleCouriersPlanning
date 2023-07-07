@@ -161,6 +161,7 @@ def format_output(instance, result, elapsed):
 def parse_cp_output(cp_output, instance):
     m = instance["m"]
     n = instance["n"]
+    print(cp_output)
     x = cp_output.split('\n')[0]
     x = x.split('[')[1].split(']')[0].split(', ')
     x = np.array([int(y) for y in x])
@@ -225,7 +226,7 @@ def main(config_file, verbose):
             
             cp_output = os.popen(f"minizinc ./CP/{cp_to_call} --solver {config['solver']} --solver-time-limit {config['timeout'] * 1_000} -d data.dzn").read()
             time_spent = time() - start_time
-            if "UNSATISFIABLE" in cp_output or "=UNKNOWN=" in cp_output:
+            if "UNSATISFIABLE" in cp_output or "=UNKNOWN=" in cp_output or "=ERROR=" in cp_output:
                 result = None
             else:
                 cp_result = parse_cp_output(cp_output, instance)
