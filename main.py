@@ -72,7 +72,7 @@ def add_additional_info(data):
     time = min(time_bound1, time_bound2)
 
     # calculate max_dist
-    max_dist_bound1 = np.sum(np.max(distances[:n], axis=1))
+    max_dist_bound1 = np.sum(np.max(distances, axis=1))
     max_dist_bound2 = np.sum(sorted(distances.flatten(), reverse=True)[:time+1])
 
     if each_courier_at_least_one == 0:
@@ -212,6 +212,8 @@ def main(config_file, verbose):
             print("Instance file not found")
             return
         instance = add_additional_info(instance)
+
+        continue
 
         output_field_name = ''
         
