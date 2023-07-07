@@ -17,7 +17,7 @@ def format_smtlib_output(instance, result):
             step = int(result[i*time+j].split(" ")[1])
             if step != instance["n"]:
                 couriers_step[i].append(step + 1)
-        couriers_step[i].reverse()
+        couriers_step[i]
     return couriers_step
 
 
