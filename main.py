@@ -141,6 +141,13 @@ def distances_from_solution(instance, solution):
     return courier_dist
 
 def format_output(instance, result, elapsed):
+    if result == "unsat":
+        return {
+            "time" : 300,
+            "optimal" : False,
+            "obj" : "n/a",
+            "sol" : "unsat"
+        }
     if result is not None:
         solution, optimal = result
     else:
@@ -162,7 +169,6 @@ def format_output(instance, result, elapsed):
 def parse_cp_output(cp_output, instance):
     m = instance["m"]
     n = instance["n"]
-    print(cp_output)
     x = cp_output.split('\n')[0]
     x = x.split('[')[1].split(']')[0].split(', ')
     x = np.array([int(y) for y in x])
@@ -229,7 +235,9 @@ def main(config_file, verbose):
             
             cp_output = os.popen(f"minizinc ./CP/{cp_to_call} --solver {config['solver']} --solver-time-limit {config['timeout'] * 1_000} -d data.dzn").read()
             time_spent = time() - start_time
-            if "UNSATISFIABLE" in cp_output or "=UNKNOWN=" in cp_output or "=ERROR=" in cp_output:
+            if "UNSATISFIABLE" in cp_output or "=ERROR=" in cp_output:
+                result = "unsat"
+            elif "=UNKNOWN=" in cp_output:
                 result = None
             else:
                 cp_result = parse_cp_output(cp_output, instance)
@@ -240,15 +248,19 @@ def main(config_file, verbose):
             output_field_name = config['solver']
             if config['symmetry_breaking']:
                 output_field_name += '_sb'
+        
         elif config['method'].lower() == 'sat':
             result = utils.run_with_timeout(run_sat, config['timeout'] + 1, instance, config['pseudo_boolean'])
             output_field_name = 'pb' if config['pseudo_boolean'] else 'standard'
+        
         elif config['method'].lower() == 'smt':
             result = utils.run_with_timeout(run_smt, config['timeout'] + 1, instance, config['timeout'], config['symmetry_breaking'], instance_number)
             output_field_name = 'symmetry_breaking' if config['symmetry_breaking'] else 'standard'
+        
         elif config['method'] == 'mip':
             result = utils.run_with_timeout(run_mip, config['timeout'] + 1, instance, config['timeout'], config['solver'])
             output_field_name = config['solver']
+        
         elif config['method'] == 'smt-lib':
             result = utils.run_with_timeout(run_smt_lib, config['timeout'], instance, config["timeout"], config['symmetry_breaking'], instance_number, config['solver'])
             # result = run_smt_lib(instance, config['timeout'], config['symmetry_breaking'], instance_number, config['solver'])
@@ -258,7 +270,6 @@ def main(config_file, verbose):
 
         elapsed = time() - start_time
         formatted_output = format_output(instance, result, elapsed)
-
         json_file_path = f'./res/{config["method"].upper()}/{instance_number}.json'
         
         Path(json_file_path).parent.mkdir(exist_ok=True, parents=True)
