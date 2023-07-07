@@ -1,1 +1,1 @@
-{"cbc": {"time": 1, "optimal": true, "obj": 206, "sol": [[2], [1, 3]]}}
+{"cbc": {"time": 1, "optimal": true, "obj": 206, "sol": [[2], [1, 3]]}, "grb": {"time": 1, "optimal": true, "obj": 206, "sol": [[2], [1, 3]]}}
