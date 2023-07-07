@@ -219,8 +219,6 @@ def main(config_file, verbose):
             return
         instance = add_additional_info(instance)
 
-        continue
-
         output_field_name = ''
         
         if config['method'].lower() == 'cp':
