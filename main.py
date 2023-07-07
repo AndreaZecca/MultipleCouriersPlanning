@@ -1,4 +1,5 @@
 import json
+from pathlib import Path
 import re
 from time import time
 import os
@@ -216,7 +217,12 @@ def main(config_file, verbose):
             cp_instance = to_mzn(instance)
             with open('./data.dzn', 'w') as f:
                 f.write(cp_instance)
-            cp_to_call = "cp_sb.mzn" if config['symmetry_breaking'] else "cp.mzn" 
+            
+            if config['symmetry_breaking']:
+                cp_to_call = "cp_sb.mzn"
+            else:
+                cp_to_call = "cp.mzn"
+            
             cp_output = os.popen(f"minizinc ./CP/{cp_to_call} --solver {config['solver']} --solver-time-limit {config['timeout'] * 1_000} -d data.dzn").read()
             time_spent = time() - start_time
             if "UNSATISFIABLE" in cp_output or "=UNKNOWN=" in cp_output:
@@ -234,7 +240,7 @@ def main(config_file, verbose):
             result = utils.run_with_timeout(run_sat, config['timeout'] + 1, instance, config['pseudo_boolean'])
             output_field_name = 'pb' if config['pseudo_boolean'] else 'standard'
         elif config['method'].lower() == 'smt':
-            result = utils.run_with_timeout(run_smt, config['timeout'] + 1, instance, config['timeout'], config['symmetry_breaking'])
+            result = utils.run_with_timeout(run_smt, config['timeout'] + 1, instance, config['timeout'], config['symmetry_breaking'], instance_number)
             output_field_name = 'symmetry_breaking' if config['symmetry_breaking'] else 'standard'
         elif config['method'] == 'mip':
             result = utils.run_with_timeout(run_mip, config['timeout'] + 1, instance, config['timeout'], config['solver'])
@@ -247,15 +253,20 @@ def main(config_file, verbose):
         # print(formatted_output)    
 
         json_file_path = f'./res/{config["method"].upper()}/{instance_number}.json'
+        
+        Path(json_file_path).parent.mkdir(exist_ok=True, parents=True)
+        
         if not os.path.exists(json_file_path):
             with open(json_file_path, 'w') as f:
                 f.write('{}')
                 f.close()
 
-        with open(json_file_path, "r") as jsonFile:
-            json_file_content = json.load(jsonFile)
+        print(output_field_name)
+        with open(json_file_path, "r") as json_file:
+            json_file_content = json.load(json_file)
         json_file_content[output_field_name] = formatted_output
-        with open(json_file_path, "w") as jsonFile:
-            json.dump(json_file_content, jsonFile, indent=4, separators=(',', ': '))
+
+        with open(json_file_path, "w") as json_file:
+            json.dump(json_file_content, json_file, indent=4, separators=(',', ': '))
 if __name__ == '__main__':
     main()

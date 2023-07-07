@@ -65,7 +65,7 @@ def generate_smt_mode(instance, timeout, sb):
             o.add(distances[j][j1] == instance['distances'][j][j1])
 
     # we define s as a z3 array because it is easier to indicize
-    s = Array('distances', IntSort(), IntSort())
+    s = Array('s', IntSort(), IntSort())
     for j in range(n):
         o.add(s[j] == instance['s'][j]  )
     o.add(s[n] == 0)
@@ -138,13 +138,24 @@ def format_solution(instance, model, x):
                 step_courier[i].append(model.eval(x[i][k]).as_long() + 1) 
     return step_courier
 
-def run_smt(_, instance, timeout, sb):
+def run_smt(_, instance, timeout, sb, instance_number):
     generation_start_time = time_clock()
 
     o, x, max_distance = generate_smt_mode(instance, timeout, sb)
 
+    # converting to smt-lib2 format
+    
+    smt2 = o.sexpr()
+    # save to file
+    with open(f"./SMT/smt2/smt2_{instance_number}.smt2", "w") as f:
+        f.write("(set-logic ALL)\n")
+        # removing last row from smt2
+        smt2 = smt2.split("\n")
+        smt2 = "\n".join(smt2[:-1])
+        f.write(smt2)
+
     generation_duration = time_clock() - generation_start_time
-    o.set("timeout", (timeout - generation_duration) * 1000)
+    o.set("timeout", int(timeout - generation_duration) * 1000)
 
     obj = o.minimize(max_distance)
     res = o.check()
