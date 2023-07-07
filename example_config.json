@@ -3,6 +3,6 @@
         "method": "cp",
         "timeout": 10,
         "solver": "Gecode",
-        "symmetry_breaking": true
+        "symmetry_breaking": false
     }
 ]

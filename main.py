@@ -261,12 +261,12 @@ def main(config_file, verbose):
                 f.write('{}')
                 f.close()
 
-        print(output_field_name)
+        #print(output_field_name)
         with open(json_file_path, "r") as json_file:
             json_file_content = json.load(json_file)
         json_file_content[output_field_name] = formatted_output
 
         with open(json_file_path, "w") as json_file:
-            json.dump(json_file_content, json_file, indent=4, separators=(',', ': '))
+            json.dump(json_file_content, json_file)
 if __name__ == '__main__':
     main()
