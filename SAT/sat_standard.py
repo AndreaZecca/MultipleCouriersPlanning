@@ -66,7 +66,7 @@ def mcp_standard(instance):
                 for _ in range(s[j]):
                     weigth_set.append(v[i][j][k])
         solver.add(at_most_k_seq(weigth_set, min(l[i], max_load), f"courier_{i}_load"))
-        solver.add(at_least_k_seq(weigth_set, min_load, f"courier_{i}_load"))
+        # solver.add(at_least_k_seq(weigth_set, min_load, f"courier_{i}_load"))
     
 
     # 2. Each courier i starts and end at position j = n
