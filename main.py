@@ -10,6 +10,7 @@ import numpy as np
 from SAT.core import run_sat
 from MIP.core import run_mip
 from SMT.core import run_smt
+from SMTLIB.core import run_smt_lib
 
 import utils
 
@@ -246,12 +247,15 @@ def main(config_file, verbose):
         elif config['method'] == 'mip':
             result = utils.run_with_timeout(run_mip, config['timeout'] + 1, instance, config['timeout'], config['solver'])
             output_field_name = config['solver']
+        elif config['method'] == 'smt-lib':
+            result = utils.run_with_timeout(run_smt_lib, config['timeout'], instance, config["timeout"], config['symmetry_breaking'], instance_number, config['solver'])
+            # result = run_smt_lib(instance, config['timeout'], config['symmetry_breaking'], instance_number, config['solver'])
+            output_field_name = config['solver']
         else:
             raise RuntimeError('Unknown method')
 
         elapsed = time() - start_time
         formatted_output = format_output(instance, result, elapsed)
-        # print(formatted_output)    
 
         json_file_path = f'./res/{config["method"].upper()}/{instance_number}.json'
         
@@ -262,7 +266,6 @@ def main(config_file, verbose):
                 f.write('{}')
                 f.close()
 
-        #print(output_field_name)
         with open(json_file_path, "r") as json_file:
             json_file_content = json.load(json_file)
         json_file_content[output_field_name] = formatted_output

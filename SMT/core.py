@@ -23,7 +23,7 @@ def maxv(vs):
 def get_list_of_values(ll,j):
         return([If(x==j,1,0) for l in ll for x in l])
 
-def generate_smt_mode(instance, timeout, sb):
+def generate_smt_model(instance, timeout, sb):
     m = instance['m'] # couriers
     n = instance['n'] # packages
     l = instance['l'] # capacities
@@ -67,7 +67,7 @@ def generate_smt_mode(instance, timeout, sb):
     # we define s as a z3 array because it is easier to indicize
     s = Array('s', IntSort(), IntSort())
     for j in range(n):
-        o.add(s[j] == instance['s'][j]  )
+        o.add(s[j] == instance['s'][j])
     o.add(s[n] == 0)
 
     
@@ -141,20 +141,7 @@ def format_solution(instance, model, x):
 def run_smt(_, instance, timeout, sb, instance_number):
     generation_start_time = time_clock()
 
-    o, x, max_distance = generate_smt_mode(instance, timeout, sb)
-
-    # converting to smt-lib2 format
-    
-    smt2 = o.sexpr()
-    # save to file
-    with open(f"./SMT/smt2/smt2_{instance_number}.smt2", "w") as f:
-        f.write("(set-logic ALL)\n")
-        # removing last row from smt2
-        smt2 = smt2.split("\n")
-        smt2 = smt2[:-1]
-        smt2 = "\n".join(smt2[:-1])
-        f.write(smt2)
-
+    o, x, max_distance = generate_smt_model(instance, timeout, sb)
     generation_duration = time_clock() - generation_start_time
     o.set("timeout", int(timeout - generation_duration) * 1000)
 
