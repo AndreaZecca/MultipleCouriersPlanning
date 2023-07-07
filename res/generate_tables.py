@@ -59,7 +59,7 @@ for tech in technologies:
 
         df = pd.DataFrame(results)
         df.index += 1 
-        df.to_csv(f"./{tech}.csv", index=True)
+        df.to_csv(f"./tables/{tech}.csv", index=True)
     except Exception as e:
         print(e)
         continue
