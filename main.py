@@ -169,7 +169,7 @@ def format_output(instance, result, elapsed):
 def parse_cp_output(cp_output, instance):
     m = instance["m"]
     n = instance["n"]
-    x = cp_output.split('\n')[0]
+    x = cp_output.split('----------')[-2]
     x = x.split('[')[1].split(']')[0].split(', ')
     x = np.array([int(y) for y in x])
     x = x.reshape((m, n+1))
@@ -195,20 +195,6 @@ def main(config_file, verbose):
 
         instance_number = config["instance"].split('/')[-1]
         instance_number = int(re.findall(r"(\d+)", instance_number)[0])
-        
-        if verbose:
-            debug_info = f"- Instance:{instance_number} - Method:{config['method']}"
-            if config['method'].lower() == 'cp':
-                debug_info += f" - Solver:{config['solver']}"
-                debug_info += f" - SB:{config['symmetry_breaking']}"
-            elif config['method'].lower() == 'mip':
-                debug_info += f" - Solver:{config['solver']}"
-            elif config['method'].lower() == 'sat':
-                debug_info += f" - PB:{config['pseudo_boolean']}"
-            elif config['method'].lower() == 'smt':
-                debug_info += f" - SB:{config['symmetry_breaking']}"
-            print(debug_info)
-
 
         start_time = time()
         try:
@@ -231,16 +217,25 @@ def main(config_file, verbose):
             else:
                 cp_to_call = "cp.mzn"
             
-            cp_output = os.popen(f"minizinc ./CP/{cp_to_call} --solver {config['solver']} --solver-time-limit {config['timeout'] * 1_000} -d data.dzn").read()
+            if config['solver'] == 'Gecode':
+                config['solver'] = 'Gecode -p 4'
+            try:
+                cp_output = os.popen(f"minizinc ./CP/{cp_to_call} --solver {config['solver']} --solver-time-limit {config['timeout'] * 1_000} -d data.dzn -a").read()
+            except Exception as e:
+                cp_output = "=ERROR="
+            
             time_spent = time() - start_time
-            if "UNSATISFIABLE" in cp_output or "=ERROR=" in cp_output:
+            if "UNSATISFIABLE" in cp_output:
                 result = "unsat"
-            elif "=UNKNOWN=" in cp_output:
+            elif "=ERROR=" in cp_output:
                 result = None
             else:
-                cp_result = parse_cp_output(cp_output, instance)
-                isOptimal = time_spent <= config['timeout']
-                result = (cp_result, isOptimal)
+                try:
+                    cp_result = parse_cp_output(cp_output, instance)
+                    isOptimal = time_spent <= config['timeout']
+                    result = (cp_result, isOptimal)
+                except Exception as e:
+                    result = None
             os.remove('./data.dzn')
 
             output_field_name = config['solver']
@@ -268,6 +263,24 @@ def main(config_file, verbose):
 
         elapsed = time() - start_time
         formatted_output = format_output(instance, result, elapsed)
+
+        if verbose:
+            debug_info = f"- Instance:{instance_number} - Method:{config['method']}"
+            if config['method'].lower() == 'cp':
+                debug_info += f" - Solver:{config['solver']}"
+                debug_info += f" - SB:{config['symmetry_breaking']}"
+            elif config['method'].lower() == 'mip':
+                debug_info += f" - Solver:{config['solver']}"
+            elif config['method'].lower() == 'sat':
+                debug_info += f" - PB:{config['pseudo_boolean']}"
+            elif config['method'].lower() == 'smt':
+                debug_info += f" - SB:{config['symmetry_breaking']}"
+            debug_info += f" - Obj: {formatted_output['obj']}"
+            print(debug_info)
+            print(formatted_output)
+            print('---------------------------------')
+
+
         json_file_path = f'./res/{config["method"].upper()}/{instance_number}.json'
         
         Path(json_file_path).parent.mkdir(exist_ok=True, parents=True)
