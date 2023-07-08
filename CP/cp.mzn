@@ -65,17 +65,17 @@ constraint
     );
 
 % each package is delivered exactly once
-% constraint
-%     forall(j in 1..n) (
-%         exactly_one(
-%             [x[i, j] != j | i in 1..m]
-%         )
-%     );
-
 constraint
     forall(j in 1..n) (
-        sum([x[i,j]!=j | i in 1..m]) == 1
+        exactly_one(
+            [x[i, j] != j | i in 1..m]
+        )
     );
+
+% constraint
+%     forall(j in 1..n) (
+%         sum([x[i,j]!=j | i in 1..m]) == 1
+%     );
 
 % bins creation
 constraint bin_packing_load(load, bins, s);
