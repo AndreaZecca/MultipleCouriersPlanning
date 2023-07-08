@@ -217,10 +217,11 @@ def main(config_file, verbose):
             else:
                 cp_to_call = "cp.mzn"
             
+            threads = ''
             if config['solver'] == 'Gecode':
-                config['solver'] = 'Gecode -p 4'
+                threads = ' -p 4'
             try:
-                cp_output = os.popen(f"minizinc ./CP/{cp_to_call} --solver {config['solver']} --solver-time-limit {config['timeout'] * 1_000} -d data.dzn -a").read()
+                cp_output = os.popen(f"minizinc ./CP/{cp_to_call} --solver {config['solver'] + threads} --solver-time-limit {config['timeout'] * 1_000} -d data.dzn -a").read()
             except Exception as e:
                 cp_output = "=ERROR="
             
@@ -275,9 +276,8 @@ def main(config_file, verbose):
                 debug_info += f" - PB:{config['pseudo_boolean']}"
             elif config['method'].lower() == 'smt':
                 debug_info += f" - SB:{config['symmetry_breaking']}"
-            debug_info += f" - Obj: {formatted_output['obj']}"
             print(debug_info)
-            print(formatted_output)
+            print(f"Time: {formatted_output['time']} - Optimal: {formatted_output['optimal']} - Objective: {formatted_output['obj']} - Solution: {formatted_output['sol']}")
             print('---------------------------------')
 
 
