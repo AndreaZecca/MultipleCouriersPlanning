@@ -1,0 +1,1 @@
+{"cvc4": {"time": 300, "optimal": false, "obj": "n/a", "sol": null}, "z3": {"time": 175, "optimal": true, "obj": 436, "sol": [[12], [8], [10], [13], [1], [5], [9], [3, 2, 11], [4], [7, 6]]}}
