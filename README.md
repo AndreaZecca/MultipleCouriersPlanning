@@ -10,7 +10,8 @@ MultipleCouriersPlanning is a collection of various solving techniques for the M
 ## Running the Tests
 
 In order to run the tests:
-1. Build the Docker container
+1. Build the Docker container with the `build_docker.sh` script or by running the following command: ```docker build -t mcp ./``` . It's important to name the container `mcp` since the `run_docker.sh` script relies on it.
+
 2. Run the `run_docker.sh` script
 3. From the docker terminal, in the main directory, run the script `main.py` with the following parameters:
  - Path to the json file that defines the instances to run
