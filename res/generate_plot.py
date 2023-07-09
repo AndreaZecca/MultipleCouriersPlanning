@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-technologies = ["CP", "SAT", "SMT", "MIP"]
+technologies = ["CP", "SAT", "SMT", "MIP", "SMT-LIB"]
 
 
 keys_to_method = {
@@ -17,10 +17,13 @@ keys_to_method = {
         'pb': 'SAT + Pseudo-Boolean',
     },
     "SMT": {
-        "standard": "SMT w/out SB"
+        "symmetry_breaking": "SMT + SB"
     },
     "MIP":{
         'cbc': 'CBC',
+    },
+    "SMT-LIB":{
+        'z3': "SMTLIB-z3"
     }
 }
 
@@ -65,6 +68,7 @@ cp_df = pd.read_csv("./CP.csv")
 sat_df = pd.read_csv("./SAT.csv")
 smt_df = pd.read_csv("./SMT.csv")
 mip_df = pd.read_csv("./MIP.csv")
+z3_df = pd.read_csv("./SMT-LIB.csv")
 
 chuf_sb_sol = cp_df['Chuffed + SB'].tolist()[:max_instances]
 chuf_sb_opt = cp_df['SOL_Chuffed_sb'].tolist()[:max_instances]
@@ -78,14 +82,17 @@ sat_sol = sat_df['SAT + Pseudo-Boolean'].tolist()[:max_instances]
 sat_opt = sat_df['SOL_pb'].tolist()[:max_instances]
 sat_marker = np.array(['green' if c else 'red' for c in sat_opt])
 
-smt_sol = smt_df['SMT w/out SB'].tolist()[:max_instances]
-smt_opt = smt_df['SOL_standard'].tolist()[:max_instances]
+smt_sol = smt_df['SMT + SB'].tolist()[:max_instances]
+smt_opt = smt_df['SOL_symmetry_breaking'].tolist()[:max_instances]
 smt_marker = np.array(['green' if c else 'red' for c in smt_opt])
 
 mip_sol = mip_df['CBC'].tolist()[:max_instances]
 mip_opt = mip_df['SOL_cbc'].tolist()[:max_instances]
 mip_marker = np.array(['green' if c else 'red' for c in mip_opt])
 
+z3_sol = z3_df['SMTLIB-z3'].tolist()[:max_instances]
+z3_opt = z3_df['SOL_z3'].tolist()[:max_instances]
+z3_marker = np.array(['green' if c else 'red' for c in z3_opt])
 
 instances = list(range(1,max_instances+1))
 
@@ -98,28 +105,32 @@ ax.plot(instances, chuf_sb_sol)
 ax.plot(instances, gec_sb_sol)
 ax.plot(instances, sat_sol)
 ax.plot(instances, smt_sol)
+ax.plot(instances, z3_sol)
 ax.plot(instances, mip_sol)
 
 ax2.plot(instances, chuf_sb_sol)
 ax2.plot(instances, gec_sb_sol)
 ax2.plot(instances, sat_sol)
 ax2.plot(instances, smt_sol)
+ax2.plot(instances, z3_sol)
 ax2.plot(instances, mip_sol)
 
 ax.scatter(instances, chuf_sb_sol, c=chuf_marker, s=100)
 ax.scatter(instances, gec_sb_sol, c=gec_marker, s=100)
 ax.scatter(instances, sat_sol, c=sat_marker, s=100)
 ax.scatter(instances, smt_sol, c=smt_marker, s=100)
+ax.scatter(instances, z3_sol, c=z3_marker, s=100)
 ax.scatter(instances, mip_sol, c=mip_marker, s=100)
 
 ax2.scatter(instances, chuf_sb_sol, c=chuf_marker, s=100)
 ax2.scatter(instances, gec_sb_sol, c=gec_marker, s=100)
 ax2.scatter(instances, sat_sol, c=sat_marker, s=100)
 ax2.scatter(instances, smt_sol, c=smt_marker, s=100)
+ax2.scatter(instances, z3_sol, c=z3_marker, s=100)
 ax2.scatter(instances, mip_sol, c=mip_marker, s=100)
 
-ax.set_ylim(280, 305)  # most of the data
-ax2.set_ylim(0, 50)  # outliers only
+ax.set_ylim(60, 305)  # most of the data
+ax2.set_ylim(0, 40)  # outliers only
 d = .015  # how big to make the diagonal lines in axes coordinates
 # arguments to pass to plot, just so we don't keep repeating them
 kwargs = dict(transform=ax.transAxes, color='k', clip_on=False)
@@ -152,7 +163,7 @@ for tick in ax2.yaxis.get_major_ticks():
 ax.grid(True)
 ax2.grid(True)
 plt.plot()
-ax.legend(['Chuffed+SB', 'Gecode+SB', 'SAT+PB', 'SMT w/out SB', 'MIP+CBC'],loc='upper left', fontsize=25)
+ax.legend(['Chuffed+SB', 'Gecode+SB', 'SAT+PB', 'SMT w/out SB', 'Z3-SMTLIB', 'MIP+CBC'],loc='upper left', fontsize=25)
 plt.savefig("./chart.png")
 
 # deleting csv files
@@ -160,4 +171,5 @@ os.remove("./CP.csv")
 os.remove("./MIP.csv")
 os.remove("./SAT.csv")
 os.remove("./SMT.csv")
+os.remove("./SMT-LIB.csv")
 
