@@ -206,6 +206,22 @@ def main(config_file, verbose):
         instance = add_additional_info(instance)
 
         output_field_name = ''
+
+        if verbose:
+            debug_info = f"- Instance:{instance_number} - Method:{config['method']}"
+            if config['method'].lower() == 'cp':
+                debug_info += f" - Solver:{config['solver']}"
+                debug_info += f" - SB:{config['symmetry_breaking']}"
+            elif config['method'].lower() == 'mip':
+                debug_info += f" - Solver:{config['solver']}"
+            elif config['method'].lower() == 'sat':
+                debug_info += f" - PB:{config['pseudo_boolean']}"
+            elif config['method'].lower() == 'smt':
+                debug_info += f" - SB:{config['symmetry_breaking']}"
+            elif config['method'].lower() == 'smt-lib':
+                debug_info += f" - Solver:{config['solver']}" 
+                debug_info += f" - SB:{config['symmetry_breaking']}"
+            print(debug_info)
         
         if config['method'].lower() == 'cp':
             cp_instance = to_mzn(instance)
@@ -266,17 +282,6 @@ def main(config_file, verbose):
         formatted_output = format_output(instance, result, elapsed)
 
         if verbose:
-            debug_info = f"- Instance:{instance_number} - Method:{config['method']}"
-            if config['method'].lower() == 'cp':
-                debug_info += f" - Solver:{config['solver']}"
-                debug_info += f" - SB:{config['symmetry_breaking']}"
-            elif config['method'].lower() == 'mip':
-                debug_info += f" - Solver:{config['solver']}"
-            elif config['method'].lower() == 'sat':
-                debug_info += f" - PB:{config['pseudo_boolean']}"
-            elif config['method'].lower() == 'smt':
-                debug_info += f" - SB:{config['symmetry_breaking']}"
-            print(debug_info)
             print(f"Time: {formatted_output['time']} - Optimal: {formatted_output['optimal']} - Objective: {formatted_output['obj']} - Solution: {formatted_output['sol']}")
             print('---------------------------------')
 

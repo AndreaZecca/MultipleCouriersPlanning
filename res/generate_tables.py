@@ -23,7 +23,6 @@ keys_to_method = {
     "SMT-LIB":{
         'z3': 'Z3',
         'cvc4': 'cvc4',
-        'cvc5': 'cvc5',
     },
     "MIP":{
         'cbc': 'CBC',

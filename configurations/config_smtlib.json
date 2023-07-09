@@ -1,147 +1,141 @@
-[   {
+[   
+    {
+    "instance": "./Instances/inst01.dat",
+    "method": "smt-lib",
+    "timeout": 300,
+    "symmetry_breaking": true,
+    "solver": "cvc4"
+    },
+    {
+        "instance": "./Instances/inst02.dat",
+        "method": "smt-lib",
+        "timeout": 300,
+        "symmetry_breaking": true,
+        "solver": "cvc4"
+    },
+    {
+        "instance": "./Instances/inst03.dat",
+        "method": "smt-lib",
+        "timeout": 300,
+        "symmetry_breaking": true,
+        "solver": "cvc4"
+    },
+    {
+        "instance": "./Instances/inst04.dat",
+        "method": "smt-lib",
+        "timeout": 300,
+        "symmetry_breaking": true,
+        "solver": "cvc4"
+    },
+    {
+        "instance": "./Instances/inst05.dat",
+        "method": "smt-lib",
+        "timeout": 300,
+        "symmetry_breaking": true,
+        "solver": "cvc4"
+    },
+    {
+        "instance": "./Instances/inst06.dat",
+        "method": "smt-lib",
+        "timeout": 300,
+        "symmetry_breaking": true,
+        "solver": "cvc4"
+    },
+    {
+        "instance": "./Instances/inst07.dat",
+        "method": "smt-lib",
+        "timeout": 300,
+        "symmetry_breaking": true,
+        "solver": "cvc4"
+    },
+    {
+        "instance": "./Instances/inst08.dat",
+        "method": "smt-lib",
+        "timeout": 300,
+        "symmetry_breaking": true,
+        "solver": "cvc4"
+    },
+    {
+        "instance": "./Instances/inst09.dat",
+        "method": "smt-lib",
+        "timeout": 300,
+        "symmetry_breaking": true,
+        "solver": "cvc4"
+    },
+    {
+        "instance": "./Instances/inst10.dat",
+        "method": "smt-lib",
+        "timeout": 300,
+        "symmetry_breaking": true,
+        "solver": "cvc4"
+    },
+    {
         "instance": "./Instances/inst01.dat",
         "method": "smt-lib",
-        "timeout": 60,
+        "timeout": 300,
         "symmetry_breaking": true,
         "solver": "z3"
     },
     {
         "instance": "./Instances/inst02.dat",
         "method": "smt-lib",
-        "timeout": 60,
+        "timeout": 300,
         "symmetry_breaking": true,
         "solver": "z3"
     },
     {
         "instance": "./Instances/inst03.dat",
         "method": "smt-lib",
-        "timeout": 60,
+        "timeout": 300,
         "symmetry_breaking": true,
         "solver": "z3"
     },
     {
         "instance": "./Instances/inst04.dat",
         "method": "smt-lib",
-        "timeout": 60,
+        "timeout": 300,
         "symmetry_breaking": true,
         "solver": "z3"
     },
     {
         "instance": "./Instances/inst05.dat",
         "method": "smt-lib",
-        "timeout": 60,
+        "timeout": 300,
         "symmetry_breaking": true,
         "solver": "z3"
     },
     {
         "instance": "./Instances/inst06.dat",
         "method": "smt-lib",
-        "timeout": 60,
+        "timeout": 300,
         "symmetry_breaking": true,
         "solver": "z3"
     },
     {
         "instance": "./Instances/inst07.dat",
         "method": "smt-lib",
-        "timeout": 60,
+        "timeout": 300,
         "symmetry_breaking": true,
         "solver": "z3"
     },
     {
         "instance": "./Instances/inst08.dat",
         "method": "smt-lib",
-        "timeout": 60,
+        "timeout": 300,
         "symmetry_breaking": true,
         "solver": "z3"
     },
     {
         "instance": "./Instances/inst09.dat",
         "method": "smt-lib",
-        "timeout": 60,
+        "timeout": 300,
         "symmetry_breaking": true,
         "solver": "z3"
     },
     {
         "instance": "./Instances/inst10.dat",
         "method": "smt-lib",
-        "timeout": 60,
-        "symmetry_breaking": true,
-        "solver": "z3"
-    },
-    {
-        "instance": "./Instances/inst11.dat",
-        "method": "smt-lib",
-        "timeout": 60,
-        "symmetry_breaking": true,
-        "solver": "z3"
-    },
-    {
-        "instance": "./Instances/inst12.dat",
-        "method": "smt-lib",
-        "timeout": 60,
-        "symmetry_breaking": true,
-        "solver": "z3"
-    },
-    {
-        "instance": "./Instances/inst13.dat",
-        "method": "smt-lib",
-        "timeout": 60,
-        "symmetry_breaking": true,
-        "solver": "z3"
-    },
-    {
-        "instance": "./Instances/inst14.dat",
-        "method": "smt-lib",
-        "timeout": 60,
-        "symmetry_breaking": true,
-        "solver": "z3"
-    },
-    {
-        "instance": "./Instances/inst15.dat",
-        "method": "smt-lib",
-        "timeout": 60,
-        "symmetry_breaking": true,
-        "solver": "z3"
-    },
-    {
-        "instance": "./Instances/inst16.dat",
-        "method": "smt-lib",
-        "timeout": 60,
-        "symmetry_breaking": true,
-        "solver": "z3"
-    },
-    {
-        "instance": "./Instances/inst17.dat",
-        "method": "smt-lib",
-        "timeout": 60,
-        "symmetry_breaking": true,
-        "solver": "z3"
-    },
-    {
-        "instance": "./Instances/inst18.dat",
-        "method": "smt-lib",
-        "timeout": 60,
-        "symmetry_breaking": true,
-        "solver": "z3"
-    },
-    {
-        "instance": "./Instances/inst19.dat",
-        "method": "smt-lib",
-        "timeout": 60,
-        "symmetry_breaking": true,
-        "solver": "z3"
-    },
-    {
-        "instance": "./Instances/inst20.dat",
-        "method": "smt-lib",
-        "timeout": 60,
-        "symmetry_breaking": true,
-        "solver": "z3"
-    },
-    {
-        "instance": "./Instances/inst21.dat",
-        "method": "smt-lib",
-        "timeout": 60,
+        "timeout": 300,
         "symmetry_breaking": true,
         "solver": "z3"
     }
