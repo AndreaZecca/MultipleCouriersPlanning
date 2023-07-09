@@ -1,8 +1,8 @@
 [   {
-        "instance": "./Instances/inst14.dat",
-        "method": "cp",
+        "instance": "./Instances/inst02.dat",
+        "method": "smt-lib",
         "timeout": 300,
-        "solver": "Chuffed",
+        "solver": "z3",
         "symmetry_breaking": true
     }
 ]
