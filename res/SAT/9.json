@@ -1,1 +1,1 @@
-{"pb": {"time": 36, "optimal": true, "obj": 436, "sol": [[1], [2, 10], [5], [9], [4], [6], [13, 8], [11], [7, 3], [12]]}, "standard": {"time": 300, "optimal": false, "obj": "n/a", "sol": null}}
+{"pb": {"time": 17, "optimal": true, "obj": 436, "sol": [[1], [2, 10], [5], [9], [4], [6], [13, 8], [11], [7, 3], [12]]}, "standard": {"time": 300, "optimal": false, "obj": "n/a", "sol": null}}
