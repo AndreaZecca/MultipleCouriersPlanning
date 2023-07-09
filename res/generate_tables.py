@@ -55,6 +55,7 @@ for tech in technologies:
                 method_result = total_results[method]
                 sol_found = method_result['obj']
                 to_append[keys_to_method[tech][method]] =  int(sol_found) if isinstance(sol_found, int) else sol_found.upper() 
+                to_append[f"Optimallty_{keys_to_method[tech][method]}"] = True if method_result['optimal'] else False 
             results.append(to_append)
 
         df = pd.DataFrame(results)
